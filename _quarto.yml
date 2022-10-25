@@ -15,7 +15,7 @@ website:
         aria-label: GitHub
     left:
       - text: "Slides"
-        href: slides_AA.qmd
+        href: slides.qmd
       - text: "Ejemplo 1"
         href: Ej01_AA.qmd
       - text: "Ejemplo 2"
