@@ -1,0 +1,34 @@
+---
+title: "Análisis de Datos in situ"
+subtitle: "Aprendizaje Automático para datos espaciales"
+date: 'Octubre 2022'
+date-format: "MMMM, YYYY"
+author: 
+    - Mariano Córdoba
+    - Pablo Paccioretti
+    - Franco Suarez
+    - Mónica Balzarini
+toc: true
+toc-title: 'Contenidos'
+---
+
+## Introducción
+
+Tradicionalmente en el análisis de datos espaciales geoestadísticos la técnica 
+de interpolación kriging ha sido la de mayor aplicación. Entre sus variantes el 
+kriging con deriva externa (KDE) y el kriging regresión (RK) se han convertido 
+en técnicas de referencia que explotan la autocorrelación espacial de los datos
+observados y la información aportada por covariables relacionadas a la respuesta.
+
+Recientemente, las técnicas de aprendizaje automático, como aquellas basadas en 
+árboles de regresión, se han vuelto cada vez más populares para realizar 
+interpolaciones espaciales dada su capacidad y flexibilidad para combinar 
+numerosas capas de información. Sin embargo, estos métodos no fueron diseñados
+para contemplar la autocorrelación espacial en los datos. Hoy, existe una fuerte
+demanda de nuevas versiones de algoritmos de predicción espacial con la pericia
+de producir soluciones mejoradas por la inclusión en el modelo de la estructura
+de correlación espacial y/o temporal en los datos. En esta mesa de análisis de 
+datos in situ se ilustra la aplicación de un algoritmo de Random Forest (RF) 
+que incorpora la componente espacial en el ajuste del modelo predictivo. La 
+misma es comprada con la aplicación clásica de Kriging y con el método Random 
+Forest Kriging. 

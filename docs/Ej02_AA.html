@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.251">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>GAB2022 Analisis in Situ - Ejemplo 2: Mapeo del contenido de Zinc</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "language": {
+    "search-no-results-text": "Sín resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la busqueda",
+    "search-hide-matches-text": "Esconder resultados adicionales",
+    "search-more-match-text": "hay más resultados en este documento",
+    "search-more-matches-text": "más resultados en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Eviar"
+  }
+}</script>
+<script src="site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="site_libs/jquery-1.12.4/jquery.min.js"></script>
+<link href="site_libs/leaflet-1.3.1/leaflet.css" rel="stylesheet">
+<script src="site_libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="site_libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet">
+<script src="site_libs/proj4-2.6.2/proj4.min.js"></script>
+<script src="site_libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="site_libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet">
+<script src="site_libs/leaflet-binding-2.1.1/leaflet.js"></script>
+<script src="site_libs/leaflet-providers-1.9.0/leaflet-providers_1.9.0.js"></script>
+<script src="site_libs/leaflet-providers-plugin-2.1.1/leaflet-providers-plugin.js"></script>
+
+
+</head>
+
+<body class="floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">GAB2022 Analisis in Situ</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./slides_AA.html">Slides</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./Ej01_AA.html">Ejemplo 1</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="./Ej02_AA.html" aria-current="page">Ejemplo 2</a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/PPaccioretti/EstadisticaEspacial"><i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+ </a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul>
+  <li><a href="#datos" id="toc-datos" class="nav-link active" data-scroll-target="#datos">Datos</a>
+  <ul class="collapse">
+  <li><a href="#lectura-base-de-datos" id="toc-lectura-base-de-datos" class="nav-link" data-scroll-target="#lectura-base-de-datos">Lectura base de datos</a></li>
+  <li><a href="#kriging-ordinario" id="toc-kriging-ordinario" class="nav-link" data-scroll-target="#kriging-ordinario">Kriging Ordinario</a></li>
+  <li><a href="#interpolación-espacial-random-forest-rfsi" id="toc-interpolación-espacial-random-forest-rfsi" class="nav-link" data-scroll-target="#interpolación-espacial-random-forest-rfsi">Interpolación Espacial Random Forest (RFSI)</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">Ejemplo 2: Mapeo del contenido de Zinc</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Código</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Enseñar el código</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Esconder el código</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">Ver el código</a></li></ul></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="datos" class="level2">
+<h2 class="anchored" data-anchor-id="datos">Datos</h2>
+<p>Este conjunto de datos proporciona la ubicación espacial de valores de concentraciones de metales pesados (cadmium, copper, lead, zinc), la elevación del terreno, el contenido de materia orgánica, tipo de suelo, frecuencia de inundación e un periodo de 10 años y distancia entre el punto muestreado y el rio Meuse. Los datos fueron recolectados mediante muestras compuestas de un área de 15 m x 15 m.</p>
+<p>Se ilustra el uso del método kriging ordinarios y del algoritmo RFSI, en un escenario donde se utiliza solo la información de la variable medida, sin incluir las covariables disponibles.</p>
+<section id="lectura-base-de-datos" class="level3">
+<h3 class="anchored" data-anchor-id="lectura-base-de-datos">Lectura base de datos</h3>
+<div class="cell">
+<details>
+<summary>Carga paquetes y funciones</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sp)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(geoR)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomForest)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tmap)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gstat)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stars)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"src/near.obs.R"</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_options</span>(</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">basemaps =</span> <span class="fu">c</span>(</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Satelital'</span> <span class="ot">=</span> leaflet<span class="sc">::</span>providers<span class="sc">$</span>Esri.WorldImagery,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">'OSM'</span> <span class="ot">=</span> leaflet<span class="sc">::</span>providers<span class="sc">$</span>OpenStreetMap</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">demo</span>(meuse, <span class="at">echo =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(meuse<span class="sc">$</span>zinc, <span class="at">main=</span><span class="st">""</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Ej02_AA_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>datos_zinc <span class="ot">&lt;-</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.geodata</span>(<span class="fu">as.data.frame</span>(meuse),</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">coords.col =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">data.col =</span> <span class="dv">6</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="kriging-ordinario" class="level3">
+<h3 class="anchored" data-anchor-id="kriging-ordinario">Kriging Ordinario</h3>
+<section id="ajuste-de-semivariogramas" class="level4">
+<h4 class="anchored" data-anchor-id="ajuste-de-semivariogramas">Ajuste de semivariogramas</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>ini.v <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">var</span>(<span class="fu">log1p</span>(datos_zinc<span class="sc">$</span>data)), <span class="dv">500</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>zinc.vgm <span class="ot">&lt;-</span> <span class="fu">likfit</span>(datos_zinc,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">lambda =</span> <span class="dv">0</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">ini =</span> ini.v,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">cov.model =</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"exponential"</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>zinc.vgm</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>## kappa not used for the exponential correlation function
+## ---------------------------------------------------------------
+## likfit: likelihood maximisation using the function optim.
+## likfit: Use control() to pass additional
+##          arguments for the maximisation function.
+##         For further details see documentation for optim.
+## likfit: It is highly advisable to run this function several
+##         times with different initial values for the parameters.
+## likfit: WARNING: This step can be time demanding!
+## ---------------------------------------------------------------
+## likfit: end of numerical maximisation.
+## likfit: estimated model parameters:
+##       beta      tausq    sigmasq        phi 
+## "  6.1553" "  0.0164" "  0.5928" "500.0001" 
+## Practical Range with cor=0.05 for asymptotic range: 1497.866
+## 
+## likfit: maximised log-likelihood = -1014</code></pre>
+</div>
+</div>
+</section>
+<section id="interpolación-kriging" class="level4">
+<h4 class="anchored" data-anchor-id="interpolación-kriging">Interpolación Kriging</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>grilla_zinc <span class="ot">&lt;-</span> meuse.grid<span class="sc">@</span>coords</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>zinc.ok <span class="ot">&lt;-</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">krige.conv</span>(datos_zinc,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">locations =</span> grilla_zinc,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">krige =</span> krige.control</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>             (<span class="at">obj.m =</span> zinc.vgm))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>## krige.conv: model with constant mean
+## krige.conv: performing the Box-Cox data transformation
+## krige.conv: back-transforming the predicted mean and variance
+## krige.conv: Kriging performed using global neighbourhood</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="interpolación-espacial-random-forest-rfsi" class="level3">
+<h3 class="anchored" data-anchor-id="interpolación-espacial-random-forest-rfsi">Interpolación Espacial Random Forest (RFSI)</h3>
+<section id="generación-de-covariables-basadas-en-distancia-y-valores-vecinos" class="level4">
+<h4 class="anchored" data-anchor-id="generación-de-covariables-basadas-en-distancia-y-valores-vecinos">Generación de covariables basadas en distancia y valores vecinos</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>nn_datos_zinc <span class="ot">&lt;-</span> <span class="fu">near.obs</span>(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">locations =</span> meuse,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">observations =</span> meuse,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">zcol =</span> <span class="st">"zinc"</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">n.obs =</span> <span class="dv">10</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">idw =</span> F</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>meuse_nn <span class="ot">&lt;-</span> <span class="fu">cbind</span>(meuse[, <span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="dv">5</span><span class="sc">:</span><span class="dv">13</span>)], nn_datos_zinc)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>meuse_nn</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>## class       : SpatialPointsDataFrame 
+## features    : 155 
+## extent      : 178605, 181390, 329714, 333611  (xmin, xmax, ymin, ymax)
+## crs         : +init=epsg:28992 
+## variables   : 21
+## names       : zinc,            dist1,            dist2,            dist3,            dist4,            dist5,            dist6,            dist7,            dist8,            dist9,           dist10, obs1, obs2, obs3, obs4, ... 
+## min values  :  113, 43.9317652729776, 56.0446250768082, 85.7263086805912, 96.6747123088556, 117.923704148063, 126.589889011722, 131.320219311422, 146.768525236169, 148.060798322851, 185.043238190429,  113,  119,  119,  117, ... 
+## max values  : 1839, 353.004249266209, 503.135170704653, 799.335974418767, 848.958185071562,  870.91790657903, 914.617406350874, 986.887024942572, 1013.12634947473, 1038.17146945965, 1043.98515315114, 1672, 1839, 1839, 1839, ...</code></pre>
+</div>
+</div>
+</section>
+<section id="ajuste-del-rf" class="level4">
+<h4 class="anchored" data-anchor-id="ajuste-del-rf">Ajuste del RF</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>fitControl <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">"CV"</span>, <span class="at">number =</span> <span class="dv">10</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">as.formula</span>(<span class="fu">paste</span>(<span class="st">"y ~ "</span>, <span class="fu">paste</span>(<span class="fu">names</span>(meuse_nn), <span class="at">collapse =</span> <span class="st">"+"</span>)))</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>train_rfsi_zinc <span class="ot">&lt;-</span> <span class="fu">train</span>(</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  zinc <span class="sc">~</span> dist1 <span class="sc">+</span> dist2 <span class="sc">+</span> dist3 <span class="sc">+</span> dist4 <span class="sc">+</span> dist5 <span class="sc">+</span> dist6 <span class="sc">+</span> dist7 <span class="sc">+</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    dist8 <span class="sc">+</span> dist9 <span class="sc">+</span> dist10 <span class="sc">+</span> obs1 <span class="sc">+</span> obs2 <span class="sc">+</span> obs3 <span class="sc">+</span> obs4 <span class="sc">+</span> obs5 <span class="sc">+</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    obs6 <span class="sc">+</span> obs7 <span class="sc">+</span> obs8 <span class="sc">+</span> obs9 <span class="sc">+</span> obs10,</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> <span class="fu">as.data.frame</span>(meuse_nn) ,</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"rf"</span>,</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">trControl =</span> fitControl,</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">importance =</span> T</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>train_rfsi_zinc</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>## y ~ zinc + dist1 + dist2 + dist3 + dist4 + dist5 + dist6 + dist7 + 
+##     dist8 + dist9 + dist10 + obs1 + obs2 + obs3 + obs4 + obs5 + 
+##     obs6 + obs7 + obs8 + obs9 + obs10
+## Random Forest 
+## 
+## 155 samples
+##  20 predictor
+## 
+## No pre-processing
+## Resampling: Cross-Validated (10 fold) 
+## Summary of sample sizes: 139, 139, 139, 139, 140, 141, ... 
+## Resampling results across tuning parameters:
+## 
+##   mtry  RMSE      Rsquared   MAE     
+##    2    259.5574  0.5678192  183.7801
+##   11    251.1136  0.5993428  172.1344
+##   20    259.5551  0.5790154  177.5460
+## 
+## RMSE was used to select the optimal model using the smallest value.
+## The final value used for the model was mtry = 11.</code></pre>
+</div>
+</div>
+</section>
+<section id="importancia-de-variables-regresoras" class="level4">
+<h4 class="anchored" data-anchor-id="importancia-de-variables-regresoras">Importancia de variables regresoras</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>importancia_zinc <span class="ot">&lt;-</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>(<span class="fu">importance</span>(train_rfsi_zinc<span class="sc">$</span>finalModel))</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>importancia_zinc<span class="sc">$</span>Variable <span class="ot">&lt;-</span> <span class="fu">rownames</span>(importancia_zinc)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(importancia_zinc)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> importancia_zinc, <span class="fu">aes</span>(</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">reorder</span>(Variable, <span class="st">`</span><span class="at">%IncMSE</span><span class="st">`</span>),</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="st">`</span><span class="at">%IncMSE</span><span class="st">`</span>,</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">fill =</span> <span class="st">`</span><span class="at">%IncMSE</span><span class="st">`</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>)) <span class="sc">+</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Variable"</span>, <span class="at">title =</span> <span class="st">"Incremento de MSE (%)"</span>) <span class="sc">+</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Ej02_AA_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<div class="kable-table">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">%IncMSE</th>
+<th style="text-align: right;">IncNodePurity</th>
+<th style="text-align: left;">Variable</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">dist1</td>
+<td style="text-align: right;">2.5515291</td>
+<td style="text-align: right;">350521.2</td>
+<td style="text-align: left;">dist1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">dist2</td>
+<td style="text-align: right;">2.1945478</td>
+<td style="text-align: right;">480503.9</td>
+<td style="text-align: left;">dist2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">dist3</td>
+<td style="text-align: right;">7.1933649</td>
+<td style="text-align: right;">478014.8</td>
+<td style="text-align: left;">dist3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">dist4</td>
+<td style="text-align: right;">4.6694006</td>
+<td style="text-align: right;">372904.8</td>
+<td style="text-align: left;">dist4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">dist5</td>
+<td style="text-align: right;">0.8274903</td>
+<td style="text-align: right;">330880.7</td>
+<td style="text-align: left;">dist5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">dist6</td>
+<td style="text-align: right;">4.4517268</td>
+<td style="text-align: right;">233089.3</td>
+<td style="text-align: left;">dist6</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="predicción-rfsi" class="level4">
+<h4 class="anchored" data-anchor-id="predicción-rfsi">Predicción RFSI</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>grilla_nn_zinc <span class="ot">&lt;-</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">near.obs</span>(</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> meuse.grid,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">observations =</span> meuse_nn,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">zcol =</span> <span class="st">"zinc"</span>,</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">n.obs =</span> <span class="dv">10</span>,</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">idw =</span> F</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>grilla_nn_zinc <span class="ot">&lt;-</span> <span class="fu">cbind</span>(meuse.grid, grilla_nn_zinc)</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>grilla_nn_zinc<span class="sc">$</span>RFSI <span class="ot">&lt;-</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">predict</span>(train_rfsi_zinc, <span class="at">newdata =</span> grilla_nn_zinc)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="mapa-predicción-ko-y-rfsi" class="level4">
+<h4 class="anchored" data-anchor-id="mapa-predicción-ko-y-rfsi">Mapa predicción KO y RFSI</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>grilla_nn_zinc<span class="sc">$</span>KO <span class="ot">&lt;-</span> zinc.ok<span class="sc">$</span>predict</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>grilla_nn_zinc <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(grilla_nn_zinc)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>grilla_nn_zinc_rast <span class="ot">&lt;-</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_rasterize</span>(grilla_nn_zinc, <span class="at">dx =</span> <span class="dv">40</span>, <span class="at">dy =</span> <span class="dv">40</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">'view'</span>)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>breaks_custom <span class="ot">&lt;-</span> <span class="fu">pretty</span>(<span class="fu">c</span>(grilla_nn_zinc_rast<span class="sc">$</span>KO,</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>                          grilla_nn_zinc_rast<span class="sc">$</span>RFSI),</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>                        <span class="at">n =</span> <span class="dv">6</span>)</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>breaks_custom <span class="ot">&lt;-</span> <span class="fu">quantile</span>(<span class="fu">c</span>(grilla_nn_zinc_rast<span class="sc">$</span>KO,</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>                            grilla_nn_zinc_rast<span class="sc">$</span>RFSI),</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>                          <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">0.5</span>, <span class="fl">0.8</span>, <span class="dv">1</span>),</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>                          <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>kriging_zinc <span class="ot">&lt;-</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_basemap</span>(</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">Satelite =</span> <span class="st">"Esri.WorldImagery"</span>,</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">Politico =</span> <span class="st">"Esri.WorldGrayCanvas"</span>,</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">Topo =</span> <span class="st">"Esri.WorldTopoMap"</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(grilla_nn_zinc_rast,</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>           <span class="at">name =</span> <span class="st">"Kriging"</span>) <span class="sc">+</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_raster</span>(</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">col =</span> <span class="st">"KO"</span>,</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Zinc Kriging"</span>,</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="st">"cont"</span>,</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">palette =</span> <span class="st">"YlOrBr"</span>,</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">contrast =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="dv">1</span>),</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> breaks_custom</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(<span class="at">legend.format =</span> <span class="fu">list</span>(</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">scientific =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">format =</span> <span class="st">"f"</span>,</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">digits =</span> <span class="dv">0</span></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>kriging_zinc</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="htmlwidget-c025a75a97194c2bce97" style="width:100%;height:464px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c025a75a97194c2bce97">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"createMapPane","args":["tmap401",401]},{"method":"addProviderTiles","args":["Esri.WorldImagery",null,"Satelite",{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["Esri.WorldGrayCanvas",null,"Politico",{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["Esri.WorldTopoMap",null,"Topo",{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"pane":"tilePane"}]},{"method":"addRasterImage","args":["data:image/png;base64,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",[[50.9930155856758,5.72078928577739],[50.9553130692316,5.76583926949902]],1,null,"tmap401","Kriging"]},{"method":"addLegend","args":[{"colors":["#FFF8C4 , #FFE49B 11.559489608429%, #FFCF70 23.4601424010729%, #FCB846 35.3607951937168%, #F09530 47.2614479863607%, #E2721A 59.1621007790046%, #C85309 71.0627535716486%, #9E3F09 82.9634063642925%, #762D08 94.8640591569364%, #662506 "],"labels":["400","600","800","1,000","1,200","1,400","1,600","1,800"],"na_color":null,"na_label":null,"opacity":1,"position":"topright","type":"numeric","title":"Zinc Kriging","extra":{"p_1":0.11559489608429,"p_n":0.948640591569364},"layerId":"legend401","className":"info legend Kriging","group":"Kriging"}]},{"method":"addLayersControl","args":[["Satelite","Politico","Topo"],"Kriging",{"collapsed":true,"autoZIndex":true,"position":"topleft"}]}],"limits":{"lat":[50.9553130692316,50.9930155856758],"lng":[5.72078928577739,5.76583926949902]},"fitBounds":[50.9554862579209,5.72078928577739,50.9930155856759,5.76549754238305,[]]},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>RFSI_zinc <span class="ot">&lt;-</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_basemap</span>(</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">Satelite =</span> <span class="st">"Esri.WorldImagery"</span>,</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">Politico =</span> <span class="st">"Esri.WorldGrayCanvas"</span>,</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">Topo =</span> <span class="st">"Esri.WorldTopoMap"</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(grilla_nn_zinc_rast,</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>           <span class="at">name =</span> <span class="st">"RFSI"</span>) <span class="sc">+</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_raster</span>(</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">col =</span> <span class="st">"RFSI"</span>,</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Arcilla (%) RFSI"</span>,</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="st">"cont"</span>,</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">palette =</span> <span class="st">"YlOrBr"</span>,</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">contrast =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="dv">1</span>),</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> breaks_custom</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(<span class="at">legend.format =</span> <span class="fu">list</span>(</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">scientific =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">format =</span> <span class="st">"f"</span>,</span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">digits =</span> <span class="dv">0</span></span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>RFSI_zinc</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="htmlwidget-e0c7ed6c9e922075a914" style="width:100%;height:464px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-e0c7ed6c9e922075a914">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"createMapPane","args":["tmap401",401]},{"method":"addProviderTiles","args":["Esri.WorldImagery",null,"Satelite",{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["Esri.WorldGrayCanvas",null,"Politico",{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["Esri.WorldTopoMap",null,"Topo",{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"pane":"tilePane"}]},{"method":"addRasterImage","args":["data:image/png;base64,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",[[50.9930155856758,5.72078928577739],[50.9553130692316,5.76583926949902]],1,null,"tmap401","RFSI"]},{"method":"addLegend","args":[{"colors":["#FFF8C4 , #FFE49B 11.559489608429%, #FFCF70 23.4601424010729%, #FCB846 35.3607951937168%, #F09530 47.2614479863607%, #E2721A 59.1621007790046%, #C85309 71.0627535716486%, #9E3F09 82.9634063642925%, #762D08 94.8640591569364%, #662506 "],"labels":["400","600","800","1,000","1,200","1,400","1,600","1,800"],"na_color":null,"na_label":null,"opacity":1,"position":"topright","type":"numeric","title":"Arcilla (%) RFSI","extra":{"p_1":0.11559489608429,"p_n":0.948640591569364},"layerId":"legend401","className":"info legend RFSI","group":"RFSI"}]},{"method":"addLayersControl","args":[["Satelite","Politico","Topo"],"RFSI",{"collapsed":true,"autoZIndex":true,"position":"topleft"}]}],"limits":{"lat":[50.9553130692316,50.9930155856758],"lng":[5.72078928577739,5.76583926949902]},"fitBounds":[50.9554862579209,5.72078928577739,50.9930155856759,5.76549754238305,[]]},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+
+
+<!-- -->
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copiada");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Correr el código</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb17" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Ejemplo 2: Mapeo del contenido de Zinc"</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span><span class="co"> html</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="fu">## Datos</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>Este conjunto de datos proporciona la ubicación espacial de valores de concentraciones de metales pesados (cadmium, copper, lead, zinc), la elevación del terreno, el contenido de materia orgánica, tipo de suelo, frecuencia de inundación e un periodo de 10 años y distancia entre el punto muestreado y el rio Meuse. Los datos fueron recolectados mediante muestras compuestas de un área de 15 m x 15 m.</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>Se ilustra el uso del método kriging ordinarios y del algoritmo RFSI, en un escenario donde se utiliza solo la información de la variable medida, sin incluir las covariables disponibles. </span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="fu">### Lectura base de datos</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-fold: true</span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-summary: "Carga paquetes y funciones"</span></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sp)</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(geoR)</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomForest)</span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tmap)</span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gstat)</span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stars)</span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"src/near.obs.R"</span>)</span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_options</span>(</span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">basemaps =</span> <span class="fu">c</span>(</span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Satelital'</span> <span class="ot">=</span> leaflet<span class="sc">::</span>providers<span class="sc">$</span>Esri.WorldImagery,</span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a>    <span class="st">'OSM'</span> <span class="ot">=</span> leaflet<span class="sc">::</span>providers<span class="sc">$</span>OpenStreetMap</span>
+<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-40"><a href="#cb17-40" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb17-41"><a href="#cb17-41" aria-hidden="true" tabindex="-1"></a><span class="fu">demo</span>(meuse, <span class="at">echo =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb17-42"><a href="#cb17-42" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(meuse<span class="sc">$</span>zinc, <span class="at">main=</span><span class="st">""</span>)</span>
+<span id="cb17-43"><a href="#cb17-43" aria-hidden="true" tabindex="-1"></a>datos_zinc <span class="ot">&lt;-</span></span>
+<span id="cb17-44"><a href="#cb17-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.geodata</span>(<span class="fu">as.data.frame</span>(meuse),</span>
+<span id="cb17-45"><a href="#cb17-45" aria-hidden="true" tabindex="-1"></a>             <span class="at">coords.col =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>,</span>
+<span id="cb17-46"><a href="#cb17-46" aria-hidden="true" tabindex="-1"></a>             <span class="at">data.col =</span> <span class="dv">6</span>)</span>
+<span id="cb17-47"><a href="#cb17-47" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-48"><a href="#cb17-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-49"><a href="#cb17-49" aria-hidden="true" tabindex="-1"></a><span class="fu">### Kriging Ordinario </span></span>
+<span id="cb17-50"><a href="#cb17-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-51"><a href="#cb17-51" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Ajuste de semivariogramas</span></span>
+<span id="cb17-52"><a href="#cb17-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-55"><a href="#cb17-55" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb17-56"><a href="#cb17-56" aria-hidden="true" tabindex="-1"></a>ini.v <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">var</span>(<span class="fu">log1p</span>(datos_zinc<span class="sc">$</span>data)), <span class="dv">500</span>)</span>
+<span id="cb17-57"><a href="#cb17-57" aria-hidden="true" tabindex="-1"></a>zinc.vgm <span class="ot">&lt;-</span> <span class="fu">likfit</span>(datos_zinc,</span>
+<span id="cb17-58"><a href="#cb17-58" aria-hidden="true" tabindex="-1"></a>                   <span class="at">lambda =</span> <span class="dv">0</span>,</span>
+<span id="cb17-59"><a href="#cb17-59" aria-hidden="true" tabindex="-1"></a>                   <span class="at">ini =</span> ini.v,</span>
+<span id="cb17-60"><a href="#cb17-60" aria-hidden="true" tabindex="-1"></a>                   <span class="at">cov.model =</span></span>
+<span id="cb17-61"><a href="#cb17-61" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"exponential"</span>)</span>
+<span id="cb17-62"><a href="#cb17-62" aria-hidden="true" tabindex="-1"></a>zinc.vgm</span>
+<span id="cb17-63"><a href="#cb17-63" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-64"><a href="#cb17-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-65"><a href="#cb17-65" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Interpolación Kriging</span></span>
+<span id="cb17-68"><a href="#cb17-68" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb17-69"><a href="#cb17-69" aria-hidden="true" tabindex="-1"></a>grilla_zinc <span class="ot">&lt;-</span> meuse.grid<span class="sc">@</span>coords</span>
+<span id="cb17-70"><a href="#cb17-70" aria-hidden="true" tabindex="-1"></a>zinc.ok <span class="ot">&lt;-</span></span>
+<span id="cb17-71"><a href="#cb17-71" aria-hidden="true" tabindex="-1"></a>  <span class="fu">krige.conv</span>(datos_zinc,</span>
+<span id="cb17-72"><a href="#cb17-72" aria-hidden="true" tabindex="-1"></a>             <span class="at">locations =</span> grilla_zinc,</span>
+<span id="cb17-73"><a href="#cb17-73" aria-hidden="true" tabindex="-1"></a>             <span class="at">krige =</span> krige.control</span>
+<span id="cb17-74"><a href="#cb17-74" aria-hidden="true" tabindex="-1"></a>             (<span class="at">obj.m =</span> zinc.vgm))</span>
+<span id="cb17-75"><a href="#cb17-75" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-76"><a href="#cb17-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-77"><a href="#cb17-77" aria-hidden="true" tabindex="-1"></a><span class="fu">### Interpolación Espacial Random Forest (RFSI)</span></span>
+<span id="cb17-78"><a href="#cb17-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-79"><a href="#cb17-79" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Generación de covariables basadas en distancia y valores vecinos</span></span>
+<span id="cb17-82"><a href="#cb17-82" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb17-83"><a href="#cb17-83" aria-hidden="true" tabindex="-1"></a>nn_datos_zinc <span class="ot">&lt;-</span> <span class="fu">near.obs</span>(</span>
+<span id="cb17-84"><a href="#cb17-84" aria-hidden="true" tabindex="-1"></a>  <span class="at">locations =</span> meuse,</span>
+<span id="cb17-85"><a href="#cb17-85" aria-hidden="true" tabindex="-1"></a>  <span class="at">observations =</span> meuse,</span>
+<span id="cb17-86"><a href="#cb17-86" aria-hidden="true" tabindex="-1"></a>  <span class="at">zcol =</span> <span class="st">"zinc"</span>,</span>
+<span id="cb17-87"><a href="#cb17-87" aria-hidden="true" tabindex="-1"></a>  <span class="at">n.obs =</span> <span class="dv">10</span>,</span>
+<span id="cb17-88"><a href="#cb17-88" aria-hidden="true" tabindex="-1"></a>  <span class="at">idw =</span> F</span>
+<span id="cb17-89"><a href="#cb17-89" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-90"><a href="#cb17-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-91"><a href="#cb17-91" aria-hidden="true" tabindex="-1"></a>meuse_nn <span class="ot">&lt;-</span> <span class="fu">cbind</span>(meuse[, <span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="dv">5</span><span class="sc">:</span><span class="dv">13</span>)], nn_datos_zinc)</span>
+<span id="cb17-92"><a href="#cb17-92" aria-hidden="true" tabindex="-1"></a>meuse_nn</span>
+<span id="cb17-93"><a href="#cb17-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-94"><a href="#cb17-94" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-95"><a href="#cb17-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-96"><a href="#cb17-96" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Ajuste del RF</span></span>
+<span id="cb17-99"><a href="#cb17-99" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb17-100"><a href="#cb17-100" aria-hidden="true" tabindex="-1"></a>fitControl <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">"CV"</span>, <span class="at">number =</span> <span class="dv">10</span>)</span>
+<span id="cb17-101"><a href="#cb17-101" aria-hidden="true" tabindex="-1"></a><span class="fu">as.formula</span>(<span class="fu">paste</span>(<span class="st">"y ~ "</span>, <span class="fu">paste</span>(<span class="fu">names</span>(meuse_nn), <span class="at">collapse =</span> <span class="st">"+"</span>)))</span>
+<span id="cb17-102"><a href="#cb17-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-103"><a href="#cb17-103" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
+<span id="cb17-104"><a href="#cb17-104" aria-hidden="true" tabindex="-1"></a>train_rfsi_zinc <span class="ot">&lt;-</span> <span class="fu">train</span>(</span>
+<span id="cb17-105"><a href="#cb17-105" aria-hidden="true" tabindex="-1"></a>  zinc <span class="sc">~</span> dist1 <span class="sc">+</span> dist2 <span class="sc">+</span> dist3 <span class="sc">+</span> dist4 <span class="sc">+</span> dist5 <span class="sc">+</span> dist6 <span class="sc">+</span> dist7 <span class="sc">+</span></span>
+<span id="cb17-106"><a href="#cb17-106" aria-hidden="true" tabindex="-1"></a>    dist8 <span class="sc">+</span> dist9 <span class="sc">+</span> dist10 <span class="sc">+</span> obs1 <span class="sc">+</span> obs2 <span class="sc">+</span> obs3 <span class="sc">+</span> obs4 <span class="sc">+</span> obs5 <span class="sc">+</span></span>
+<span id="cb17-107"><a href="#cb17-107" aria-hidden="true" tabindex="-1"></a>    obs6 <span class="sc">+</span> obs7 <span class="sc">+</span> obs8 <span class="sc">+</span> obs9 <span class="sc">+</span> obs10,</span>
+<span id="cb17-108"><a href="#cb17-108" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> <span class="fu">as.data.frame</span>(meuse_nn) ,</span>
+<span id="cb17-109"><a href="#cb17-109" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"rf"</span>,</span>
+<span id="cb17-110"><a href="#cb17-110" aria-hidden="true" tabindex="-1"></a>  <span class="at">trControl =</span> fitControl,</span>
+<span id="cb17-111"><a href="#cb17-111" aria-hidden="true" tabindex="-1"></a>  <span class="at">importance =</span> T</span>
+<span id="cb17-112"><a href="#cb17-112" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb17-113"><a href="#cb17-113" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-114"><a href="#cb17-114" aria-hidden="true" tabindex="-1"></a>train_rfsi_zinc</span>
+<span id="cb17-115"><a href="#cb17-115" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-116"><a href="#cb17-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-117"><a href="#cb17-117" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Importancia de variables regresoras</span></span>
+<span id="cb17-120"><a href="#cb17-120" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb17-121"><a href="#cb17-121" aria-hidden="true" tabindex="-1"></a>importancia_zinc <span class="ot">&lt;-</span></span>
+<span id="cb17-122"><a href="#cb17-122" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>(<span class="fu">importance</span>(train_rfsi_zinc<span class="sc">$</span>finalModel))</span>
+<span id="cb17-123"><a href="#cb17-123" aria-hidden="true" tabindex="-1"></a>importancia_zinc<span class="sc">$</span>Variable <span class="ot">&lt;-</span> <span class="fu">rownames</span>(importancia_zinc)</span>
+<span id="cb17-124"><a href="#cb17-124" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(importancia_zinc)</span>
+<span id="cb17-125"><a href="#cb17-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-126"><a href="#cb17-126" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> importancia_zinc, <span class="fu">aes</span>(</span>
+<span id="cb17-127"><a href="#cb17-127" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">reorder</span>(Variable, <span class="st">`</span><span class="at">%IncMSE</span><span class="st">`</span>),</span>
+<span id="cb17-128"><a href="#cb17-128" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="st">`</span><span class="at">%IncMSE</span><span class="st">`</span>,</span>
+<span id="cb17-129"><a href="#cb17-129" aria-hidden="true" tabindex="-1"></a>  <span class="at">fill =</span> <span class="st">`</span><span class="at">%IncMSE</span><span class="st">`</span></span>
+<span id="cb17-130"><a href="#cb17-130" aria-hidden="true" tabindex="-1"></a>)) <span class="sc">+</span></span>
+<span id="cb17-131"><a href="#cb17-131" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Variable"</span>, <span class="at">title =</span> <span class="st">"Incremento de MSE (%)"</span>) <span class="sc">+</span></span>
+<span id="cb17-132"><a href="#cb17-132" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb17-133"><a href="#cb17-133" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb17-134"><a href="#cb17-134" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb17-135"><a href="#cb17-135" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span>
+<span id="cb17-136"><a href="#cb17-136" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-137"><a href="#cb17-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-138"><a href="#cb17-138" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Predicción RFSI</span></span>
+<span id="cb17-139"><a href="#cb17-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-142"><a href="#cb17-142" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb17-143"><a href="#cb17-143" aria-hidden="true" tabindex="-1"></a>grilla_nn_zinc <span class="ot">&lt;-</span></span>
+<span id="cb17-144"><a href="#cb17-144" aria-hidden="true" tabindex="-1"></a>  <span class="fu">near.obs</span>(</span>
+<span id="cb17-145"><a href="#cb17-145" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> meuse.grid,</span>
+<span id="cb17-146"><a href="#cb17-146" aria-hidden="true" tabindex="-1"></a>    <span class="at">observations =</span> meuse_nn,</span>
+<span id="cb17-147"><a href="#cb17-147" aria-hidden="true" tabindex="-1"></a>    <span class="at">zcol =</span> <span class="st">"zinc"</span>,</span>
+<span id="cb17-148"><a href="#cb17-148" aria-hidden="true" tabindex="-1"></a>    <span class="at">n.obs =</span> <span class="dv">10</span>,</span>
+<span id="cb17-149"><a href="#cb17-149" aria-hidden="true" tabindex="-1"></a>    <span class="at">idw =</span> F</span>
+<span id="cb17-150"><a href="#cb17-150" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb17-151"><a href="#cb17-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-152"><a href="#cb17-152" aria-hidden="true" tabindex="-1"></a>grilla_nn_zinc <span class="ot">&lt;-</span> <span class="fu">cbind</span>(meuse.grid, grilla_nn_zinc)</span>
+<span id="cb17-153"><a href="#cb17-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-154"><a href="#cb17-154" aria-hidden="true" tabindex="-1"></a>grilla_nn_zinc<span class="sc">$</span>RFSI <span class="ot">&lt;-</span></span>
+<span id="cb17-155"><a href="#cb17-155" aria-hidden="true" tabindex="-1"></a>  <span class="fu">predict</span>(train_rfsi_zinc, <span class="at">newdata =</span> grilla_nn_zinc)</span>
+<span id="cb17-156"><a href="#cb17-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-157"><a href="#cb17-157" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-158"><a href="#cb17-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-159"><a href="#cb17-159" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Mapa predicción KO y RFSI</span></span>
+<span id="cb17-160"><a href="#cb17-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-163"><a href="#cb17-163" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb17-164"><a href="#cb17-164" aria-hidden="true" tabindex="-1"></a>grilla_nn_zinc<span class="sc">$</span>KO <span class="ot">&lt;-</span> zinc.ok<span class="sc">$</span>predict</span>
+<span id="cb17-165"><a href="#cb17-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-166"><a href="#cb17-166" aria-hidden="true" tabindex="-1"></a>grilla_nn_zinc <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(grilla_nn_zinc)</span>
+<span id="cb17-167"><a href="#cb17-167" aria-hidden="true" tabindex="-1"></a>grilla_nn_zinc_rast <span class="ot">&lt;-</span></span>
+<span id="cb17-168"><a href="#cb17-168" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_rasterize</span>(grilla_nn_zinc, <span class="at">dx =</span> <span class="dv">40</span>, <span class="at">dy =</span> <span class="dv">40</span>)</span>
+<span id="cb17-169"><a href="#cb17-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-170"><a href="#cb17-170" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">'view'</span>)</span>
+<span id="cb17-171"><a href="#cb17-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-172"><a href="#cb17-172" aria-hidden="true" tabindex="-1"></a>breaks_custom <span class="ot">&lt;-</span> <span class="fu">pretty</span>(<span class="fu">c</span>(grilla_nn_zinc_rast<span class="sc">$</span>KO,</span>
+<span id="cb17-173"><a href="#cb17-173" aria-hidden="true" tabindex="-1"></a>                          grilla_nn_zinc_rast<span class="sc">$</span>RFSI),</span>
+<span id="cb17-174"><a href="#cb17-174" aria-hidden="true" tabindex="-1"></a>                        <span class="at">n =</span> <span class="dv">6</span>)</span>
+<span id="cb17-175"><a href="#cb17-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-176"><a href="#cb17-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-177"><a href="#cb17-177" aria-hidden="true" tabindex="-1"></a>breaks_custom <span class="ot">&lt;-</span> <span class="fu">quantile</span>(<span class="fu">c</span>(grilla_nn_zinc_rast<span class="sc">$</span>KO,</span>
+<span id="cb17-178"><a href="#cb17-178" aria-hidden="true" tabindex="-1"></a>                            grilla_nn_zinc_rast<span class="sc">$</span>RFSI),</span>
+<span id="cb17-179"><a href="#cb17-179" aria-hidden="true" tabindex="-1"></a>                          <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">0.5</span>, <span class="fl">0.8</span>, <span class="dv">1</span>),</span>
+<span id="cb17-180"><a href="#cb17-180" aria-hidden="true" tabindex="-1"></a>                          <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb17-181"><a href="#cb17-181" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-182"><a href="#cb17-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-185"><a href="#cb17-185" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb17-186"><a href="#cb17-186" aria-hidden="true" tabindex="-1"></a>kriging_zinc <span class="ot">&lt;-</span></span>
+<span id="cb17-187"><a href="#cb17-187" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_basemap</span>(</span>
+<span id="cb17-188"><a href="#cb17-188" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(</span>
+<span id="cb17-189"><a href="#cb17-189" aria-hidden="true" tabindex="-1"></a>      <span class="at">Satelite =</span> <span class="st">"Esri.WorldImagery"</span>,</span>
+<span id="cb17-190"><a href="#cb17-190" aria-hidden="true" tabindex="-1"></a>      <span class="at">Politico =</span> <span class="st">"Esri.WorldGrayCanvas"</span>,</span>
+<span id="cb17-191"><a href="#cb17-191" aria-hidden="true" tabindex="-1"></a>      <span class="at">Topo =</span> <span class="st">"Esri.WorldTopoMap"</span></span>
+<span id="cb17-192"><a href="#cb17-192" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb17-193"><a href="#cb17-193" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb17-194"><a href="#cb17-194" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(grilla_nn_zinc_rast,</span>
+<span id="cb17-195"><a href="#cb17-195" aria-hidden="true" tabindex="-1"></a>           <span class="at">name =</span> <span class="st">"Kriging"</span>) <span class="sc">+</span></span>
+<span id="cb17-196"><a href="#cb17-196" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_raster</span>(</span>
+<span id="cb17-197"><a href="#cb17-197" aria-hidden="true" tabindex="-1"></a>    <span class="at">col =</span> <span class="st">"KO"</span>,</span>
+<span id="cb17-198"><a href="#cb17-198" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Zinc Kriging"</span>,</span>
+<span id="cb17-199"><a href="#cb17-199" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="st">"cont"</span>,</span>
+<span id="cb17-200"><a href="#cb17-200" aria-hidden="true" tabindex="-1"></a>    <span class="at">palette =</span> <span class="st">"YlOrBr"</span>,</span>
+<span id="cb17-201"><a href="#cb17-201" aria-hidden="true" tabindex="-1"></a>    <span class="at">contrast =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="dv">1</span>),</span>
+<span id="cb17-202"><a href="#cb17-202" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> breaks_custom</span>
+<span id="cb17-203"><a href="#cb17-203" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb17-204"><a href="#cb17-204" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(<span class="at">legend.format =</span> <span class="fu">list</span>(</span>
+<span id="cb17-205"><a href="#cb17-205" aria-hidden="true" tabindex="-1"></a>    <span class="at">scientific =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb17-206"><a href="#cb17-206" aria-hidden="true" tabindex="-1"></a>    <span class="at">format =</span> <span class="st">"f"</span>,</span>
+<span id="cb17-207"><a href="#cb17-207" aria-hidden="true" tabindex="-1"></a>    <span class="at">digits =</span> <span class="dv">0</span></span>
+<span id="cb17-208"><a href="#cb17-208" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb17-209"><a href="#cb17-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-210"><a href="#cb17-210" aria-hidden="true" tabindex="-1"></a>kriging_zinc</span>
+<span id="cb17-211"><a href="#cb17-211" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-212"><a href="#cb17-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-213"><a href="#cb17-213" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-216"><a href="#cb17-216" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb17-217"><a href="#cb17-217" aria-hidden="true" tabindex="-1"></a>RFSI_zinc <span class="ot">&lt;-</span></span>
+<span id="cb17-218"><a href="#cb17-218" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_basemap</span>(</span>
+<span id="cb17-219"><a href="#cb17-219" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(</span>
+<span id="cb17-220"><a href="#cb17-220" aria-hidden="true" tabindex="-1"></a>      <span class="at">Satelite =</span> <span class="st">"Esri.WorldImagery"</span>,</span>
+<span id="cb17-221"><a href="#cb17-221" aria-hidden="true" tabindex="-1"></a>      <span class="at">Politico =</span> <span class="st">"Esri.WorldGrayCanvas"</span>,</span>
+<span id="cb17-222"><a href="#cb17-222" aria-hidden="true" tabindex="-1"></a>      <span class="at">Topo =</span> <span class="st">"Esri.WorldTopoMap"</span></span>
+<span id="cb17-223"><a href="#cb17-223" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb17-224"><a href="#cb17-224" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb17-225"><a href="#cb17-225" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(grilla_nn_zinc_rast,</span>
+<span id="cb17-226"><a href="#cb17-226" aria-hidden="true" tabindex="-1"></a>           <span class="at">name =</span> <span class="st">"RFSI"</span>) <span class="sc">+</span></span>
+<span id="cb17-227"><a href="#cb17-227" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_raster</span>(</span>
+<span id="cb17-228"><a href="#cb17-228" aria-hidden="true" tabindex="-1"></a>    <span class="at">col =</span> <span class="st">"RFSI"</span>,</span>
+<span id="cb17-229"><a href="#cb17-229" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Arcilla (%) RFSI"</span>,</span>
+<span id="cb17-230"><a href="#cb17-230" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="st">"cont"</span>,</span>
+<span id="cb17-231"><a href="#cb17-231" aria-hidden="true" tabindex="-1"></a>    <span class="at">palette =</span> <span class="st">"YlOrBr"</span>,</span>
+<span id="cb17-232"><a href="#cb17-232" aria-hidden="true" tabindex="-1"></a>    <span class="at">contrast =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="dv">1</span>),</span>
+<span id="cb17-233"><a href="#cb17-233" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> breaks_custom</span>
+<span id="cb17-234"><a href="#cb17-234" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb17-235"><a href="#cb17-235" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(<span class="at">legend.format =</span> <span class="fu">list</span>(</span>
+<span id="cb17-236"><a href="#cb17-236" aria-hidden="true" tabindex="-1"></a>    <span class="at">scientific =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb17-237"><a href="#cb17-237" aria-hidden="true" tabindex="-1"></a>    <span class="at">format =</span> <span class="st">"f"</span>,</span>
+<span id="cb17-238"><a href="#cb17-238" aria-hidden="true" tabindex="-1"></a>    <span class="at">digits =</span> <span class="dv">0</span></span>
+<span id="cb17-239"><a href="#cb17-239" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb17-240"><a href="#cb17-240" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-241"><a href="#cb17-241" aria-hidden="true" tabindex="-1"></a>RFSI_zinc</span>
+<span id="cb17-242"><a href="#cb17-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-243"><a href="#cb17-243" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-244"><a href="#cb17-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-245"><a href="#cb17-245" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-246"><a href="#cb17-246" aria-hidden="true" tabindex="-1"></a></span>
+</code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+ © 2022 Pablo Paccioretti, Monica Balzarini, Mariano Córdoba <span xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/">licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:18px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:18px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a><p></p>
+  </span></li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+</body></html>

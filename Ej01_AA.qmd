@@ -1,0 +1,415 @@
+---
+title: "Ejemplo 1: Mapeo del contenido de Arcilla a escala de lote"
+format: html
+---
+
+## Motivación 
+
+En la agricultura de precisión el mapeo de variables de suelo y rendimiento
+para el estudio de la variabilidad espacial es crucial. A partir de la 
+caracterización de esta es posible definir prácticas agronómicas que permitan
+realizar un manejo diferenciado del lote según las características de cada sitio.
+
+En este caso de estudio se ilustra la implementación de técnicas de interpolación
+clásicas (basada en kriging) y del algoritmo Random Forest, con versiones que 
+incorporan la información espacial en el análisis, para el mapeo del contenido
+de arcilla del suelo en un lote agrícola. 
+
+
+## Datos
+
+La base de datos proviene de un lote agrícola de 90 hectáreas, ubicados al 
+sudeste pampeano de la provincia de Buenos Aires, Argentina. En este se 
+realizaron mediciones intensivas de conductividad eléctrica aparente (CEa) 
+a 30 y 90 cm de profundidad (CE30 y CE90), elevación (Elev) y profundidad
+de tosca (Pe). La medición de la CEa se realizó con un sensor Veris 3100, 
+que utiliza el principio de la inducción electromagnética. Los datos de CEa 
+fueron simultáneamente georreferenciados con un DGPS con una exactitud de 
+medición submétrica. Los datos de elevación del terreno también se midieron
+con un DGPS y se procesaron para obtener una precisión vertical de entre 3 y 
+5 cm aproximadamente. Las mediciones de Pe se realizaron utilizando un 
+penetrómetro hidráulico (Gidding) acoplado a un DGPS. Los datos de las variables
+medidas intensivamente fueron organizar los datos en una grilla común a todas
+las capas, de manera que cada celda de la grilla cuente con la información
+de su ubicación espacial y cada una de las variables medidas. 
+Para el mapeo del contenido de Arcilla se tomaron 126 muestras de suelo a 20 cm
+de profundidad utilizando una grilla regular de 50 x100 m. La determinación de
+la distribución del tamaño de partículas se realizó utilizando el método de Robinson.           
+
+### Lectura base de datos
+
+```{r}
+#| code-fold: true
+#| code-summary: "Carga paquetes y funciones"
+library(gstat)
+library(spdep)
+library(mapview)
+library(tmap)
+library(leaflet)
+library(stars)
+library(ggplot2)
+library(caret)
+library(randomForest)
+library(nabor)
+
+source("src/near.obs.R")
+
+
+
+tmap_options(basemaps = c(
+  'Satelital' = leaflet::providers$Esri.WorldImagery,
+  'OSM' = leaflet::providers$OpenStreetMap))
+```
+
+
+```{r}
+datos <- st_read("data/Arcilla_Muestra.gpkg")
+head(datos)
+
+grilla <- st_read("data/Arcilla_Grilla.gpkg")
+head(grilla)
+
+```
+
+### Visualización espacial de los datos
+
+```{r}
+tmap_mode('view')
+
+```
+
+
+:::: {.columns}
+
+::: {.column width="49%"}
+
+```{r}
+tm_shape(datos) +
+  tm_dots(col = 'Arcilla')
+```
+
+:::
+
+::: {.column width="2%"}
+
+:::
+
+
+::: {.column width="49%"}
+
+```{r}
+tm_shape(grilla) +
+  tm_dots(col = 'Pe')
+```
+
+
+:::
+
+::::
+
+
+### Kriging Ordinario 
+
+#### Ajuste de semivariogramas
+
+```{r}
+semiva_exp <- variogram(Arcilla ~ 1 , datos)
+
+semiva_teorico <-
+  fit.variogram(semiva_exp , vgm(c("Exp", "Sph", "Gau")))
+
+vgLine <- cbind(variogramLine(semiva_teorico, maxdist = max(semiva_exp$dist)), id =
+                "Semivariograma  Teórico")
+        
+grafico <-  ggplot(semiva_exp, aes(x = dist, y = gamma, color = id)) +
+  geom_line(data = vgLine) +
+  geom_point() +
+  labs(title = "Semivariograma experimental y teorico ajustado")  +
+  xlab("Distancia") +
+  ylab("Semivarianza")  +
+  scale_color_discrete(name = "Semivariograma",
+                       labels = c("Teórico", "Experimental"))
+
+grafico
+
+
+```
+
+#### Interpolación Kriging
+```{r}
+kriging <-
+  krige(Arcilla ~ 1,
+        datos,
+        grilla,
+        model = semiva_teorico,
+        nmax = 25)
+
+grilla$Kriging <- kriging$var1.pred
+```
+#### Mapa predicción KO
+```{r}
+grilla_rast <-
+  st_rasterize(grilla, dx = 10, dy = 10)
+
+tmap_mode('view')
+mapa_prediccion_Kriging <-
+  tm_shape(grilla_rast,
+           name = "Kriging") +
+  tm_raster(
+    col = "Kriging",
+    title = "Arcilla (%) Kriging",
+    style = "fixed",
+    palette = "YlOrBr",
+    contrast = c(0.1, 1),
+    breaks = c(30, 31, 32, 33, 34, 35, 36, 37)
+  ) +
+  tm_layout(legend.format = list(
+    scientific = TRUE,
+    format = "f",
+    digits = 0
+  ))
+mapa_prediccion_Kriging
+```
+
+
+### Random Forest Kriging 
+
+#### Ajuste del RF
+
+```{r}
+fitControl <- trainControl(method = "CV", number = 10)
+
+set.seed(7)
+train_rf <- train(
+  Arcilla ~ .,
+  data = st_drop_geometry(datos) ,
+  method = "rf",
+  trControl = fitControl
+)
+train_rf
+```
+
+#### Incorporación de los residuos del RF a la base de datos
+
+```{r}
+datos$residuosRF <-
+  datos$Arcilla - predict(train_rf, newdata = datos)
+```
+
+
+#### Ajuste de semivariograma experimetal y teorico a los residuos del RF
+```{r}
+semiva_exp_residuos <- variogram(residuosRF ~ 1 , datos)
+
+semiva_teorico_residuos <-
+  fit.variogram(semiva_exp_residuos , vgm(c("Exp", "Sph", "Gau")))
+plot(semiva_exp_residuos , semiva_teorico_residuos)
+
+```
+
+
+#### Kriging sobre residuos del RF
+
+```{r}
+kgresRF <-
+  krige(residuosRF ~ 1,
+        datos,
+        grilla,
+        model = semiva_teorico_residuos,
+        nmax = 25)
+```
+
+#### Prediccion RF y RF-KO
+
+```{r}
+grilla$RF <-
+  predict(train_rf, newdata = grilla)
+
+grilla$RF_KO <-
+  predict(train_rf, newdata = grilla) + kgresRF$var1.pred
+```
+
+#### Mapa predicción RF
+
+```{r}
+grilla_rast <-
+  st_rasterize(grilla, dx = 10, dy = 10)
+
+mapa_prediccionRF <-
+  tm_shape(grilla_rast,
+           name="RF") +
+  tm_raster(
+    col = "RF",
+    title = "Arcilla (%) RF",
+    style = "fixed",
+    palette = "YlOrBr",
+    contrast = c(0.1, 1),
+    breaks = c(30, 31, 32, 33, 34, 35, 36, 37)
+  ) +
+  tm_layout(legend.format = list(
+    scientific = TRUE,
+    format = "f",
+    digits = 0
+  ))
+
+mapa_prediccionRF
+
+```
+
+#### Mapa predicción RF-KO
+
+```{r}
+grilla_rast <-
+  st_rasterize(grilla, dx = 10, dy = 10)
+
+mapa_prediccionRF_KO <-
+  tm_shape(grilla_rast,
+           name = "RF-KO") +
+  tm_raster(
+    col = "RF_KO",
+    title = "Arcilla (%) RF-KO",
+    style = "fixed",
+    palette = "YlOrBr",
+    contrast = c(0.1, 1),
+    breaks = c(30, 31, 32, 33, 34, 35, 36, 37)
+  ) +
+  tm_layout(legend.format = list(
+    scientific = TRUE,
+    format = "f",
+    digits = 0
+  ))
+
+mapa_prediccionRF_KO
+```
+
+### Interpolación Espacial Random Forest (RFSI)
+
+#### Generación de covariables basadas en distancia y valores vecinos
+```{r}
+nn_datos <- near.obs(
+  locations = as_Spatial(datos),
+  observations = as_Spatial(datos),
+  zcol = "Arcilla",
+  n.obs = 4,
+  idw = T
+)
+datos <- cbind(datos[, -7], nn_datos)
+
+```
+
+#### Ajuste del RF
+```{r}
+set.seed(7)
+train_rfsi <- train(
+  Arcilla ~ .,
+  data = st_drop_geometry(datos) ,
+  method = "rf",
+  trControl = fitControl,
+  importance = T
+  
+)
+train_rfsi
+```
+
+#### Importancia de variables regresoras
+```{r}
+importancia <- as.data.frame(importance(train_rfsi$finalModel))
+importancia$Variable <- rownames(importancia)
+
+ggplot(data = importancia, aes(
+  x = reorder(Variable, `%IncMSE`),
+  y = `%IncMSE`,
+  fill = `%IncMSE`
+)) +
+  labs(x = "Variable", title = "Incremento de MSE (%)") +
+  geom_col() +
+  coord_flip() +
+  theme_bw() +
+  theme(legend.position = "bottom")
+
+```
+
+#### Calculo de los residuos del RFSI y ajuste de semivariograma experimetal
+
+```{r}
+datos$residuosRFSI <-
+  datos$Arcilla - predict(train_rfsi, newdata = datos)
+
+semiva_exp_residuos_rfsi <- variogram(residuosRFSI ~ 1 , datos)
+plot(semiva_exp_residuos_rfsi)
+```
+
+#### Predicción RFSI
+
+```{r}
+grilla_nn <-
+  near.obs(
+    locations = as_Spatial(grilla),
+    observations = as_Spatial(datos),
+    zcol = "Arcilla",
+    n.obs = 4,
+    idw = T
+  )
+grilla <- cbind(grilla, grilla_nn)
+
+grilla$RFSI <-
+  predict(train_rfsi, newdata = grilla)
+```
+
+#### Mapa predicción RFSI
+
+```{r}
+grilla_rast <-
+  st_rasterize(grilla, dx = 10, dy = 10)
+
+mapa_prediccionRFSI <-
+  tm_shape(grilla_rast,
+           name = "RFSI") +
+  tm_raster(
+    col = "RFSI",
+    title = "Arcilla (%) RFSI",
+    style = "fixed",
+    palette = "YlOrBr",
+    contrast = c(0.1, 1),
+    breaks = c(30, 31, 32, 33, 34, 35, 36, 37)
+  ) +
+  tm_layout(legend.format = list(
+    scientific = TRUE,
+    format = "f",
+    digits = 0
+  ))
+
+mapa_prediccionRFSI
+
+```
+
+#### Muestra + Mapas de predicción 
+```{r}
+mapa_muestra <- tm_shape(datos,
+                         name = "Muestra") +
+  tm_dots(
+    "Arcilla",
+    title = "Arcilla (%) Muestra",
+    style = "fixed",
+    palette = "YlOrBr",
+    contrast = c(0.1, 1),
+    breaks = c(30, 31, 32, 33, 34, 35, 36, 37),
+    size = 0.1,
+    popup.vars = T,
+    popup.format = list(
+      digits = 1,
+      decimal.mark = ",",
+      big.mark = "."
+    )
+  ) +
+  tm_layout(legend.format = list(scientific = TRUE, format = "f"))
+
+mapas <-
+  mapa_prediccion_Kriging + mapa_prediccionRF_KO + mapa_prediccionRF + mapa_prediccionRFSI + mapa_muestra
+mapas
+
+```
+
+
+
+
