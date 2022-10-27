@@ -32,3 +32,6 @@ datos in situ se ilustra la aplicación de un algoritmo de Random Forest (RF)
 que incorpora la componente espacial en el ajuste del modelo predictivo. La 
 misma es comprada con la aplicación clásica de Kriging y con el método Random 
 Forest Kriging. 
+
+
+El material del curso puede descargarlo [aqui](AA_GAB_2022.zip).
