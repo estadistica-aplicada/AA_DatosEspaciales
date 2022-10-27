@@ -60,20 +60,30 @@ Octubre, 2022
 
 ::: columns
 ::: {.column width="70%"}
+
 ::: {.fragment .fade-in-then-out}
+
 ::: {.callout-warning appearance="simple"}
+
 Puede ser computacionalmente exigente (tamaño muestra y grilla de predicción) 
 :::
 
 ::: {.callout-warning appearance="simple"}
+
 Requiere asumir supuestos estadísticos (estacionariedad, normalidad, relaciones lineales entre las variables involucradas)
+
 :::
 
 ::: {.callout-warning appearance="simple"}
+
 No es adecuado para incorporar la abundancia de información de covariables disponibles en la actualidad. 
+
 :::
+
 :::
+
 :::
+
 :::
 
 

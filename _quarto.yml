@@ -19,7 +19,7 @@ website:
       - text: "Ejemplo 1"
         href: Ej01_AA.qmd
       - text: "Ejemplo 2"
-        href: Ej02_AA.qmd
+        href: Ej02_rinde.qmd
   page-footer:
     background: "#546e7a"
     right:
