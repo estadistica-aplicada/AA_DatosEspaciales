@@ -30,5 +30,5 @@ file.copy(from = "GAB2022_AnalisisInSitu.Rproj",
 
 
 files <- list.files(d , recursive = TRUE)
-zip("myarchive.zip",
+zip(paste0(d,".zip"),
     files = paste(d, files, sep = "/"))

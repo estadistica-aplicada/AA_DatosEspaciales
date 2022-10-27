@@ -43,7 +43,7 @@ Octubre, 2022
 
 ![](img/AA_2_kriging.jpg){fig-align="center"}
 
-## Krigign Regresión
+## Kriging Regresión
 
 ![](img/AA_4_RK.jpg){fig-align="center"}
 
