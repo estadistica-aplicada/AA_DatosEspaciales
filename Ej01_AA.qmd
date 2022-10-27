@@ -1,5 +1,5 @@
 ---
-title: "Ejemplo 1: Mapeo del contenido de Arcilla a escala de lote"
+title: "Ejemplo 1: Mapeo del contenido de Arcilla"
 format: html
 ---
 
@@ -51,10 +51,11 @@ library(ggplot2)
 library(caret)
 library(randomForest)
 library(nabor)
+library(parallel)
+library(openair)
 
 source("src/near.obs.R")
-
-
+source("src/fvalidacion_arcilla.R")
 
 tmap_options(basemaps = c(
   'Satelital' = leaflet::providers$Esri.WorldImagery,
@@ -118,10 +119,11 @@ semiva_exp <- variogram(Arcilla ~ 1 , datos)
 semiva_teorico <-
   fit.variogram(semiva_exp , vgm(c("Exp", "Sph", "Gau")))
 
-vgLine <- cbind(variogramLine(semiva_teorico, maxdist = max(semiva_exp$dist)), id =
-                "Semivariograma  Teórico")
-        
-grafico <-  ggplot(semiva_exp, aes(x = dist, y = gamma, color = id)) +
+vgLine <-
+  cbind(variogramLine(semiva_teorico, maxdist = max(semiva_exp$dist)), id =
+          "Semivariograma  Teórico")
+
+ggplot(semiva_exp, aes(x = dist, y = gamma, color = id)) +
   geom_line(data = vgLine) +
   geom_point() +
   labs(title = "Semivariograma experimental y teorico ajustado")  +
@@ -129,9 +131,6 @@ grafico <-  ggplot(semiva_exp, aes(x = dist, y = gamma, color = id)) +
   ylab("Semivarianza")  +
   scale_color_discrete(name = "Semivariograma",
                        labels = c("Teórico", "Experimental"))
-
-grafico
-
 
 ```
 
@@ -237,7 +236,7 @@ grilla_rast <-
 
 mapa_prediccionRF <-
   tm_shape(grilla_rast,
-           name="RF") +
+           name = "RF") +
   tm_raster(
     col = "RF",
     title = "Arcilla (%) RF",
@@ -409,6 +408,29 @@ mapas <-
 mapas
 
 ```
+
+#### Validacion cruzada. Compración de métodos: diagrama de Taylor
+
+```{r}
+num_cores <- max(detectCores() - 1, 1)
+cl <- makeCluster(num_cores)
+
+tablavalidacion <- do.call(rbind, parLapply(cl, 1:10, validacion_arcilla))
+stopCluster(cl)
+
+TaylorDiagram(
+  tablavalidacion,
+  obs = "Observado",
+  mod = "Predicho",
+  group = c("Metodo"),
+  cols = c("orange", "red", "#53ad5d", "#251cad"),
+  annotate = "RMSE",
+  xlab = "Desvio Estandar",
+  ylab = "Desvio Estandar"
+)
+```
+
+
 
 
 

@@ -1,5 +1,6 @@
 /*-- scss:defaults --*/
-
+$spacer: 1.2rem !default;
+$headings-margin-bottom:      $spacer * .9 !default;
 // fonts
 $presentation-heading-color: #546e7a;
 $font-family-sans-serif: "Roboto", Helvetica, sans-serif;

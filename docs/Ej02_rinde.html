@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.251">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>GAB2022 Analisis in Situ - Ejemplo 2: Mapeo de Rendimiento de Soja</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "language": {
+    "search-no-results-text": "Sín resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la busqueda",
+    "search-hide-matches-text": "Esconder resultados adicionales",
+    "search-more-match-text": "hay más resultados en este documento",
+    "search-more-matches-text": "más resultados en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Eviar"
+  }
+}</script>
+<script src="site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="site_libs/jquery-1.12.4/jquery.min.js"></script>
+<link href="site_libs/leaflet-1.3.1/leaflet.css" rel="stylesheet">
+<script src="site_libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="site_libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet">
+<script src="site_libs/proj4-2.6.2/proj4.min.js"></script>
+<script src="site_libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="site_libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet">
+<script src="site_libs/leaflet-binding-2.1.1/leaflet.js"></script>
+<script src="site_libs/leaflet-providers-1.9.0/leaflet-providers_1.9.0.js"></script>
+<script src="site_libs/leaflet-providers-plugin-2.1.1/leaflet-providers-plugin.js"></script>
+
+
+</head>
+
+<body class="floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">GAB2022 Analisis in Situ</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./slides.html">Slides</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./Ej01_AA.html">Ejemplo 1</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./Ej02_AA.qmd">Ejemplo 2</a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/PPaccioretti/EstadisticaEspacial"><i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+ </a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul>
+  <li><a href="#datos" id="toc-datos" class="nav-link active" data-scroll-target="#datos">Datos</a>
+  <ul class="collapse">
+  <li><a href="#lectura-base-de-datos" id="toc-lectura-base-de-datos" class="nav-link" data-scroll-target="#lectura-base-de-datos">Lectura base de datos</a></li>
+  <li><a href="#kriging-ordinario" id="toc-kriging-ordinario" class="nav-link" data-scroll-target="#kriging-ordinario">Kriging Ordinario</a></li>
+  <li><a href="#interpolación-espacial-random-forest-rfsi" id="toc-interpolación-espacial-random-forest-rfsi" class="nav-link" data-scroll-target="#interpolación-espacial-random-forest-rfsi">Interpolación Espacial Random Forest (RFSI)</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">Ejemplo 2: Mapeo de Rendimiento de Soja</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Código</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Enseñar el código</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Esconder el código</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">Ver el código</a></li></ul></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="datos" class="level2">
+<h2 class="anchored" data-anchor-id="datos">Datos</h2>
+<p>La base de datos de ilustración cuenta con valores de rendimiento de un cultivo de soja (n=14536) recolectados con un monitor de rendimiento en un lote agrícola de 55 ha ubicado en el sudeste de la provincia de Bs. As. La base de datos cuenta con cuatro columnas, las primeras dos identifican las coordenadas espaciales bidimensionales (x e y), la tercera corresponde al cultivo y la cuarta al rendimiento expresado en t/ha.</p>
+<p>Se ilustra el uso del método kriging ordinarios y del algoritmo RFSI, en un escenario donde se utiliza solo la información de la variable medida, sin incluir las covariables disponibles.</p>
+<section id="lectura-base-de-datos" class="level3">
+<h3 class="anchored" data-anchor-id="lectura-base-de-datos">Lectura base de datos</h3>
+<div class="cell">
+<details>
+<summary>Carga paquetes y funciones</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gstat)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(spdep)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tmap)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(leaflet)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stars)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomForest)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(parallel)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(openair)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"src/near.obs.R"</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"src/fvalidacion_rinde.R"</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_options</span>(</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">basemaps =</span> <span class="fu">c</span>(</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Satelital'</span> <span class="ot">=</span> leaflet<span class="sc">::</span>providers<span class="sc">$</span>Esri.WorldImagery,</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">'OSM'</span> <span class="ot">=</span> leaflet<span class="sc">::</span>providers<span class="sc">$</span>OpenStreetMap</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"data/Rinde_soja.gpkg"</span>)[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)]</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(datos)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>## Reading layer `Rinde_soja_2' from data source 
+##   `C:\Users\Pablo\OneDrive\Documentos\Estadistica\Cursos Dictados\GAB2022_AnalisisInSitu\data\Rinde_soja.gpkg' 
+##   using driver `GPKG'
+## Simple feature collection with 14536 features and 4 fields
+## Geometry type: POINT
+## Dimension:     XY
+## Bounding box:  xmin: 573113 ymin: 5961577 xmax: 574008.6 ymax: 5962832
+## Projected CRS: WGS 84 / UTM zone 20S</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="kable-table">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: right;">REND</th>
+<th style="text-align: left;">geom</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1.3351977</td>
+<td style="text-align: left;">POINT (573290.1 5961577)</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1.0554655</td>
+<td style="text-align: left;">POINT (573292.7 5961580)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1.0142477</td>
+<td style="text-align: left;">POINT (573297.8 5961585)</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.9875547</td>
+<td style="text-align: left;">POINT (573301.9 5961589)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1.2692881</td>
+<td style="text-align: left;">POINT (573304.4 5961591)</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1.3585666</td>
+<td style="text-align: left;">POINT (573309.8 5961596)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="kriging-ordinario" class="level3">
+<h3 class="anchored" data-anchor-id="kriging-ordinario">Kriging Ordinario</h3>
+<section id="ajuste-de-semivariogramas" class="level4">
+<h4 class="anchored" data-anchor-id="ajuste-de-semivariogramas">Ajuste de semivariogramas</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>semiva_exp <span class="ot">&lt;-</span> <span class="fu">variogram</span>(REND <span class="sc">~</span> <span class="dv">1</span> , datos, <span class="at">cutoff=</span><span class="dv">300</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>semiva_teorico <span class="ot">&lt;-</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit.variogram</span>(semiva_exp , <span class="fu">vgm</span>(<span class="fu">c</span>(<span class="st">"Exp"</span>, <span class="st">"Sph"</span>, <span class="st">"Gau"</span>)))</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>vgLine <span class="ot">&lt;-</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cbind</span>(<span class="fu">variogramLine</span>(semiva_teorico, <span class="at">maxdist =</span> <span class="fu">max</span>(semiva_exp<span class="sc">$</span>dist)), <span class="at">id =</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>          <span class="st">"Semivariograma  Teórico"</span>)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(semiva_exp, <span class="fu">aes</span>(<span class="at">x =</span> dist, <span class="at">y =</span> gamma, <span class="at">color =</span> id)) <span class="sc">+</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> vgLine) <span class="sc">+</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Semivariograma experimental y teorico ajustado"</span>)  <span class="sc">+</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Distancia"</span>) <span class="sc">+</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Semivarianza"</span>)  <span class="sc">+</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_discrete</span>(<span class="at">name =</span> <span class="st">"Semivariograma"</span>,</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>                       <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Teórico"</span>, <span class="st">"Experimental"</span>))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Ej02_rinde_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="carga-de-limites-del-area-a-interpolar" class="level4">
+<h4 class="anchored" data-anchor-id="carga-de-limites-del-area-a-interpolar">Carga de limites del area a interpolar</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>limites <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"data/Limites_Rinde_soja.gpkg"</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(limites)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Ej02_rinde_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>grilla <span class="ot">&lt;-</span> <span class="fu">st_bbox</span>(limites) <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_as_stars</span>(<span class="at">dx =</span> <span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_crop</span>(limites)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>## Reading layer `Limites_Rinde_soja_2_utm' from data source 
+##   `C:\Users\Pablo\OneDrive\Documentos\Estadistica\Cursos Dictados\GAB2022_AnalisisInSitu\data\Limites_Rinde_soja.gpkg' 
+##   using driver `GPKG'
+## Simple feature collection with 1 feature and 0 fields
+## Geometry type: POLYGON
+## Dimension:     XY
+## Bounding box:  xmin: 573086.6 ymin: 5961543 xmax: 574047.6 ymax: 5962871
+## Projected CRS: WGS 84 / UTM zone 20S</code></pre>
+</div>
+</div>
+</section>
+<section id="interpolación-kriging" class="level4">
+<h4 class="anchored" data-anchor-id="interpolación-kriging">Interpolación Kriging</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>kriging <span class="ot">&lt;-</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">krige</span>(REND <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>        datos,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>        grilla,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">model =</span> semiva_teorico,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">nmax =</span> <span class="dv">25</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>grilla<span class="sc">$</span>KO <span class="ot">&lt;-</span> kriging<span class="sc">$</span>var1.pred</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>## [using ordinary kriging]</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="interpolación-espacial-random-forest-rfsi" class="level3">
+<h3 class="anchored" data-anchor-id="interpolación-espacial-random-forest-rfsi">Interpolación Espacial Random Forest (RFSI)</h3>
+<section id="generación-de-covariables-basadas-en-distancia-y-valores-vecinos" class="level4">
+<h4 class="anchored" data-anchor-id="generación-de-covariables-basadas-en-distancia-y-valores-vecinos">Generación de covariables basadas en distancia y valores vecinos</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>nn_datos <span class="ot">&lt;-</span> <span class="fu">near.obs</span>(</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">locations =</span> <span class="fu">as_Spatial</span>(datos),</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">observations =</span> <span class="fu">as_Spatial</span>(datos),</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">zcol =</span> <span class="st">"REND"</span>,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">n.obs =</span> <span class="dv">4</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>datos_nn <span class="ot">&lt;-</span> <span class="fu">cbind</span>(datos, nn_datos)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="ajuste-del-rf" class="level4">
+<h4 class="anchored" data-anchor-id="ajuste-del-rf">Ajuste del RF</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>fitControl <span class="ot">&lt;-</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">"none"</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>train_rfsi_rinde <span class="ot">&lt;-</span> <span class="fu">train</span>(</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  REND <span class="sc">~</span> .,</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> <span class="fu">st_drop_geometry</span>(datos_nn),</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"rf"</span>,</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">trControl =</span> fitControl,</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">importance =</span> T</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>train_rfsi_rinde</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>## Random Forest 
+## 
+## 14536 samples
+##     8 predictor
+## 
+## No pre-processing
+## Resampling: None</code></pre>
+</div>
+</div>
+</section>
+<section id="importancia-de-variables-regresoras" class="level4">
+<h4 class="anchored" data-anchor-id="importancia-de-variables-regresoras">Importancia de variables regresoras</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>importancia_rinde <span class="ot">&lt;-</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>(<span class="fu">importance</span>(train_rfsi_rinde<span class="sc">$</span>finalModel))</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>importancia_rinde<span class="sc">$</span>Variable <span class="ot">&lt;-</span> <span class="fu">rownames</span>(importancia_rinde)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> importancia_rinde, <span class="fu">aes</span>(</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">reorder</span>(Variable, <span class="st">`</span><span class="at">%IncMSE</span><span class="st">`</span>),</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="st">`</span><span class="at">%IncMSE</span><span class="st">`</span>,</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">fill =</span> <span class="st">`</span><span class="at">%IncMSE</span><span class="st">`</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>)) <span class="sc">+</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Variable"</span>, <span class="at">title =</span> <span class="st">"Incremento de MSE (%)"</span>) <span class="sc">+</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Ej02_rinde_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="calculo-de-los-residuos-del-rfsi-y-ajuste-de-semivariograma-experimetal" class="level4">
+<h4 class="anchored" data-anchor-id="calculo-de-los-residuos-del-rfsi-y-ajuste-de-semivariograma-experimetal">Calculo de los residuos del RFSI y ajuste de semivariograma experimetal</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>datos_nn<span class="sc">$</span>residuosRFSI <span class="ot">&lt;-</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  datos_nn<span class="sc">$</span>REND <span class="sc">-</span> <span class="fu">predict</span>(train_rfsi_rinde, <span class="at">newdata =</span> datos_nn)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>semiva_exp_residuos_rfsi <span class="ot">&lt;-</span> <span class="fu">variogram</span>(residuosRFSI <span class="sc">~</span> <span class="dv">1</span> , datos_nn)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(semiva_exp_residuos_rfsi)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Ej02_rinde_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="predicción-rfsi" class="level4">
+<h4 class="anchored" data-anchor-id="predicción-rfsi">Predicción RFSI</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>grilla_nn_rinde <span class="ot">&lt;-</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">near.obs</span>(</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">as_Spatial</span>(<span class="fu">st_as_sf</span>(grilla, <span class="at">as_points =</span> T)),</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">observations =</span> <span class="fu">as_Spatial</span>(datos_nn),</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">zcol =</span> <span class="st">"REND"</span>,</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">n.obs =</span> <span class="dv">4</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>grilla_nn_rinde <span class="ot">&lt;-</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cbind</span>(<span class="fu">st_as_sf</span>(grilla, <span class="at">as_points =</span> T), grilla_nn_rinde)</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>grilla_nn_rinde<span class="sc">$</span>RFSI <span class="ot">&lt;-</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">predict</span>(train_rfsi_rinde, <span class="at">newdata =</span> grilla_nn_rinde)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="mapa-predicción-ko-y-rfsi" class="level4">
+<h4 class="anchored" data-anchor-id="mapa-predicción-ko-y-rfsi">Mapa predicción KO y RFSI</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>grilla_nn_rinde_rast <span class="ot">&lt;-</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_rasterize</span>(grilla_nn_rinde, <span class="at">dx =</span> <span class="dv">10</span>, <span class="at">dy =</span> <span class="dv">10</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_options</span>(</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">basemaps =</span> <span class="fu">c</span>(</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Satelital'</span> <span class="ot">=</span> leaflet<span class="sc">::</span>providers<span class="sc">$</span>Esri.WorldImagery,</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'OSM'</span> <span class="ot">=</span> leaflet<span class="sc">::</span>providers<span class="sc">$</span>OpenStreetMap</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">'view'</span>)</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>breaks_custom <span class="ot">&lt;-</span> <span class="fu">pretty</span>(<span class="fu">c</span>(grilla_nn_rinde_rast<span class="sc">$</span>KO,</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>                          grilla_nn_rinde_rast<span class="sc">$</span>RFSI),</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>                        <span class="at">n =</span> <span class="dv">6</span>)</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>kriging_rinde <span class="ot">&lt;-</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(grilla_nn_rinde_rast,</span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>           <span class="at">name =</span> <span class="st">"Kriging"</span>) <span class="sc">+</span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_raster</span>(</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">col =</span> <span class="st">"KO"</span>,</span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Rendimiento (t/ha) Kriging"</span>,</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="st">"cont"</span>,</span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">palette =</span> <span class="st">"YlOrBr"</span>,</span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">contrast =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="dv">1</span>),</span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> breaks_custom</span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(<span class="at">legend.format =</span> <span class="fu">list</span>(<span class="at">scientific =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">format =</span> <span class="st">"f"</span>))</span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>RFSI_rinde <span class="ot">&lt;-</span></span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(grilla_nn_rinde_rast,</span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a>           <span class="at">name =</span> <span class="st">"RFSI"</span>) <span class="sc">+</span></span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_raster</span>(</span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">col =</span> <span class="st">"RFSI"</span>,</span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Rendimiento (t/ha) RFSI"</span>,</span>
+<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="st">"cont"</span>,</span>
+<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">palette =</span> <span class="st">"YlOrBr"</span>,</span>
+<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">contrast =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="dv">1</span>),</span>
+<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> breaks_custom</span>
+<span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb16-42"><a href="#cb16-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(<span class="at">legend.format =</span> <span class="fu">list</span>(<span class="at">scientific =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb16-43"><a href="#cb16-43" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">format =</span> <span class="st">"f"</span>))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>RFSI_rinde <span class="sc">+</span> kriging_rinde</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="htmlwidget-aa56d96cd91c95889f43" style="width:100%;height:464px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-aa56d96cd91c95889f43">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"createMapPane","args":["tmap401",401]},{"method":"createMapPane","args":["tmap402",402]},{"method":"addProviderTiles","args":["Esri.WorldImagery",null,"Satelital",{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["OpenStreetMap",null,"OSM",{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"pane":"tilePane"}]},{"method":"addRasterImage","args":["data:image/png;base64,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",[[-36.4766399397895,-62.184090777452],[-36.4886932869374,-62.1732390546668]],1,null,"tmap401","RFSI"]},{"method":"addLegend","args":[{"colors":["#FFF8C4 , #FFF8C4 0%, #FEECA5 11.1111111111111%, #FED97B 22.2222222222222%, #FEBE4A 33.3333333333333%, #FE9C2C 44.4444444444444%, #EF7818 55.5555555555556%, #D85A09 66.6666666666667%, #B74202 77.7777777777778%, #8E3004 88.8888888888889%, #662506 100%, #662506 "],"labels":["0.0","0.5","1.0","1.5","2.0","2.5","3.0","3.5","4.0","4.5"],"na_color":null,"na_label":null,"opacity":1,"position":"topright","type":"numeric","title":"Rendimiento (t/ha) RFSI","extra":{"p_1":0,"p_n":1},"layerId":"legend401","className":"info legend RFSI","group":"RFSI"}]},{"method":"addRasterImage","args":["data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGEAAACGCAYAAADNR+SZAAAgAElEQVR4nO29eXgc93nn+emqvg+gAXTjYIMgQBK8xUskdVCHdVmRHFv2OLEzjuzEnkkm48x4x/sk2X0ms7PrbHaeZ59kH2/yTCaT2GOvE5+yHSWRLVm2ZOukKIrifYAECIK4j0bfR3VVV9X+8VahQNnWQZESKen3PHjQV1V3ve/vvb/vW/DeetV17rfj9pX+DuVKf8G1vIY+EbEBDv6qckUZ8R4Tfsma/1yHHQiq1Co6AIc+pF4xRrzHhF+wpn4vaRu6Sa2iky01AQgE1SXJuNzrPSa8YuX+oNMORfwANLQm2ZqP8wUf2VITQzeviGp6jwnL1vznOuxYJkH71gyGYVIWTUTTgooOk7kmCzX4yd2XlxHvMcFZx38taBfzdQKZNOy+k5a2CK1hH70tNvGg0Dxb85GOwp4buij/ycrLxoj3mIB4P5Vak2Jeg9UbYf9PSN61lWg8SE9PDICC5qM7btOWihJb0ULsg/dhDX/hsjDiXc+E+c912PGWEPGon51/9AFoH4Tbfx3KFdbu7aM900K25qM/adOd9NO7rQtl5zbo2gG1BazsN940I/yX40Ku1WX9zUa7Olehb0UCRVUg0QNzRyDaCaqKkm6jdmqete1C53RXDDXol/cnn4f4CjAbb/p3vGslwTrwoE2mG0X1Ee5L448GmP/yd7EOHcX46WNknx6CUoVCXqNpwer+FkKJEEpvFzQKsDgLbYNgNrBmvvSmpOFdyQRr+As2bYPQmUEN+jny7UMceWyYYCSAXm5w/MnzRFJRCkPz5AsNelIhEp0xQskwRCOgFWH9ndCsQbgd7CbW9F9fMiPederIGvszGzUoT8ZGOPH0GGUdUi1+zpzK0poIsFCDnukyB06V6Y6DZVo0awahtjDEW8VuBGIQz8D8YVCCKIP/u+9Sf5N6uS7uWljWxF/Y2CboZagvou1/kepijcWKxak5G8v2MVWwSEUhX2iwbUMrTd2kXG0Si/hp3dADAzsh0QuxLihdgGgKpf8PLpkB8C6SBGv4CzZGFYpjYNSguIBtWjwxbFJpilauW7AybrO6v4WeOzeQe2GE2UKT7qSfaDIMNz4Alg7RNGg5iHSgdH3mTTEA3gVMsH56v00kDpUp0AowMQ7RCEN/v4+jE02yukJYsUkGIBGwCfttAkEVohGSaztYndcIBhRad/bD2D7Y83tgmQCXhQHwDmeC9f29NuUK5ItQG0GbypEfKzA+XmIo6yOv+0j6bfyKMODGwRBavYllWtDQqS/WeOZUnTuuizLz0yF6/vgLIkX5kTdlA165LtuJrrZlPXSjjaqCaWLOLlLP1lgYL/LDYxp+H2gmhFW4Lm2hNaE76WfzZ++GfJH60ASFiRIHTpWJB23Cftj7mT1w84Nw4UmUvQ9fVrq9IyXBeuhGcRcbOtr4AovnclSrBudnG/h9CtelLZqWfHbvp66nOjJLbEMG6/Q5anMVpkdy9G3tonmizKa1LcQ7IpLO2Pd1lI/tv+wb9x0nCdZXt9mExAWtn59j4uQCjbqBadqcnIfeFps9t/fiUxWCiRDKhz4rxvrUC1SHpjixf4q2ZIj2VJTU1h7mD0+R2tRJ7kyWzr9cvCL0ekcxwfryFhvAahg0CnVGD89yYtpkR3+QlZvTVOeqpO7aDGuulwNa++HQ9yGzBowq2tMHCK/upnJiAlM3mRsvEo74qVV0Nn2nccVo9Y6JE5p/td72+cAyTMoTRc4fn+PlSdE5e27qInrv7USjFqzoBssAo0b1e98imGqBdB+Ek/h33gUBg+BAJ8OPHCHVGaPRMFn/jfoV3azvCElofHGNHYgGMRtNtILG8MFpTs5DMmxz294uEms7qU/nUYN+9HKD+EAKq6ah3HKP+PzhpJyoOAZKgPm/+hKaJpW0wb+vXXEaXfNMaHxxjW03bfzRANXpEueOz9No2rQmAvTv6CGYCHHksWFSXTH63jeIVapSm6sQ/+3flxMEpF5AeQrUAMaj30bL1khs6EH55KG3hD7XtHdkfXmLredr1BdrsAi52QpzFZt7P70dWuIAvPg3z5GtQSBQB0Dp7SJYM+D4j2DTXaBNeSfUigQ2DBBYe+tljQNea12zTHC9ICtboVbQKJcaTMw3uPc//QqMjjPz2DFGx0r4Fdi9uZXOGwcw82XGnzxLOOyn58O/JSlprSAJudwwpDZBYgVMvvCWXss1mcpufHGNuKHlCsMvTlLM16mUGtz172+BcoVzT4+y70SZWNDHwEArnbevh1Q7lekysViAnk/eIQwYOyI2Yew5UAMwfxTCbbD2fqy5r1xx5J27rjlJKP5xj92sGQRqdeaPzWIYFpvuGEDt7oC2Vo78+aMcnYXrOm0GNnXSunsN1mwWBfBHA7RuXiGEP/cyqCpMHYWGDpk0JNfIl+hl0CtYw1+w3wq1dG1KQl4DVeXw6SI7P30T6qoeyPTw9J/+EIC17VKQDyXDaMNTKC0xrIU8sc19sHEb5CchV5QCTWsattwPsR4pVbqG2h+BSMdbIhHXlHdU+s8ZWytoxJ2acHBVJ/SvBSD3rR8RSUUZOTjN+pv7KE0UaVnZSnBdrwRntQWRgGhajHK1DptvgNZVoAbB1IXwzbrUCoyqfKleActAWf0frxitrhkmGH85aOvlBnpZp/VTn4JERgilFdB/+D2Cq3vQhqcIX78e7eUzhO+8Rd7vex/4VLAl/Ux5Ck4/D2t3iF1YcSOUxj0JCCfl82oIFFXS1ooK0/tRdvztuzdtYf3gDptSBTNbQI2GYOMg9OyWN8vT8v+lp8QtXb1RdntlWj6jBoXAjRLoJbSH/pbwxj4oVWD9JhgbEWlSAl7gpgQglAR/SJhhNqDZgLGfoNz00LsvgWcd/l0b05BUgxIQIhXHhEjd18sOnzsieaDKlLw+dRRSqyC1GWLdstOzpzD3PYe6qgft9DjhW3cw/82naFnZilFuEEpGCN5+sxzfsUGIH2oR5vlDcOQb0H8zTLyIcuejl5VuVzUTrNH/IgyIdEB9EbInhQltgxCMix5319CjoKoYR88Q6OuGdLu8rvrhwiRTPztDel2KM/vGWb2jhxP7p+jNxKlWDZJtYTrWp8iP5Ei9fyuEgkJwN444fRR23A6nXoA9H4X5oyh7vv7OL+pYE3/heSVGFfY/DFtv8Qzrtg+KIXUkof74k0wPZQmH/UTiQdo3pCmPF0is7WToR0MkWkIMna+Q6QgwlzdIBKGsg1+BFd1R8tkaW27vZ/FcjlpVx9BN1tzYy+TROQZ+bTd090ssMXoSVg5QeOjHtP/5/GWh31XpolrTf23jU8VABhOi02/+mKiKuSOSblCDIh1PfY35r/4jx56fRKs3OXGuQlM3GfrpKErIz4vfPc5c3uCp41VWdoYwTZv2mMLprI9dt2SYrfjIbO4EILiqk1DEj1ZvEooEhAH3b4HVu0UdxjOwfg/MjFPK13n4tsvTOHLVSYK18Hc2VlOMoRoSQlemwTRgeghaEiINqc1Uv/rnPPHENE0Lwn6bgiaYUa0JbWE4nfURdyBGaztVJnNNwn6YLPlY224T8vtoT0fp3pAm2J0kd2icQDTA+JlF+rd2EduQgZv+pXhU4GVbAzF46mvMPD9KMV9/07WGq4oJVu47wgDbdNzPvHg/jQKcOQVNEzddAfDiP51hJCeXUDZ8JAI2TUuqZ7MVH6mozdZ1LRw4VWbLqhDlYoP9Uz7et1altS1C56Y0aqZT7IfqB7NJ4Z9fJHnTIGzcK26wqXuboHUVtA6IAzB3hPG//h6BgIqmNVnz/1UumZZXRdrCyn9PxNo2Bc3QKMifs/v1E6P4/D4Cg33opy8wcWx26di17TYBBVJdUcrFBpO5Jpp0OKE1faiqjztv7SQ/W2GxZnNjBgH/AurG1ZKyyBehpw/OHifaFYe2VtH/tXlRga39YqCNmjAgNwxnTxCNiZj13LmBYfOYfam1h7e9smblvmPjc0yTqUneRlFFEs7uQztxnvpCFTXkx5jJMfziJD0DbcyMF6kZsOfeAXq3dNHa18bCyCI7bu2l1Wey98HtdJp1Ur//bwksnCMcD9LZEkCrGVQrOv07eigeGiMSssm+OEa0xYexUCB4682Q7JPfE2oR4+9TwW6Ku2sZcPZZ6kMTGFWDWFeM/IlpEskI//e+6hcuhQZvqzpaUj8gUtAoyeOFY3D6sKidYJDK+SzxgRTFM3OEkmHGj82xYm07L++f4fY//YQEZblhOLYPfbZA8JZdMHQG7v09OZ+pg6kz9L/8J7R6k741bYwN59j58e1oUznCfWlYt8UL8lKbRO/7VEljuNhVrQDHfkz15DiK6kMN+jHqBsFEkOL5Au3rU/h//8wbpunbxoSLmivMhvxZphhioyqpBdOEVDvE2yVQax+Eg/8M63dR+f7DxD/zH2RnuikHowrZUxCIerFEsEWeD/8zjJ7m5EOHCEf8rPnwDli9WZJ5Gz4o362XJMeUXCNOgfvb3JTHgYcwxmedl03CfWnq5+ewTLkUNaiiqArhPxx9Q3R9W5hg5b4jv9o1ws2Go4Jq8oELT8KFSYkLkmvkMz4VqjPSoGHqXrDmPnaJCBBJi/oItsix0wfQHvsB+bECmtZk4OM3wooNUsAJt3lBX3FM9L+b0PM52lpR4eQ/wuwCAOWhmSXCt25eQfalC0RSUfGmUu3UXzhB7I/HXzdt33ImWNlv2CiOP2A1PcKDpAcK52U3tg/Ka8GE2AkQ4ugVMZZmQ3Z4aUKMqEtwf1TOo+XlmNo8uf/+N1imzfhonp2f2gM77vPcTXdlT8p5E5mLiQ/SlWNUYfQC9fEsubECoUgAAEM36dnVK58LBcWod2ZgcRblvideF33f0mDNWvg7TwIaJWGAogrR/CGRiHASFkfh6D8KQeuLQhSj6qWbK9OiLhaH5MSB2MW6G+SYyeeZ+eJfMTacwx9UWbezB3Z9SN53d79RlQDQNOS5PyrMtE35THnSaYsS2xVJxUivSxGIBrBMi0BQpXx+0fGoVBi8GeanINmOdfDTryuYe8uYYM19xQvC9JLs4lCLvBlMyP9Qi5OcC0H/dhj7iby+cEx2uk9SyhhVWDwlbmxxTP5cKQm3yfsvP8TM137MzKSoqNGhLKZuUvhv/y/kh+W8ZcfdXHCkKZGREicIM4yqdOXUFkQVRSOQ6cYyLYKJIJFkmPiKBIFECH10Blb1wvhB2PZhmJ6C9kFJQL7GekuYYE3/tb1kfN1IGORxsEX0uT8K1VnxUJSAlB8rRTj9uBjZ6gzs+7ocN3sCciMwfEwkRysIMVv6xI8vT8JCDoBUV4zeVa30D7ZTXKiS3LMaOreJQY+mYXYMOrrlcXkKwq3yW0pjEijW5mH0tDDANGEh50iBTbQrTrgtQrgtgj8aoP7Uy1Cri2q7/bNSu+7a4WFjf8m64jbBmvyvywKxqhBdUUWFqCHPCFZnvZ0+cgZiEcwLM6i7dwCQ/daTAmEsVSAawRifJZBqxcWdXpReyA8z/82niHZEiQ+kqE/nOf3CJKs3pEh+6AbovUnUT21BJCC+wkHlVcXwu1W13LD8zumhpSgdkN/gLgdaQ7UuTNq63WOyaYjUta7CePTbhD5/7hfS+4pGzEuZ0GZdXMfUJlFFyTXS6eKPil0wG6KSJp5F++lzhPvSmBdmGHtpitaRHHPTZVbv6EY7PY4aUimev0AoEZTu+7ZWiXhzw9JFM3wM8kU6P3qTqLUTQ/hUhWgsQPL+XdC1VQhrzItKjKZFBbWuuvjHZ0/JezXxiOhOS3Td0CEURD87STCVgITDhEQc0iuFqZVpkWY1IOmW9RC4/zeo1v7e/kVe0xWThKUGPVMX3W3URMXs/Kh8ILlaLjDcBrWs/PCfflveU1UKQ/OU8nWKuTor17QzO1Gke2Uri3MVugbaiH/kA5JW9qtSQzaqQtxo2iv6gKirwz+EFRmv0pY9Cd27pfvS1KF4QZyBwXvlPDMvybnGRsTYNnSp6nV3wMo+rENHUUIBYYxpCmP618p3B6JyvpPH0bNlgvc9INfd0wfFBfQjwz8XR1wRJlgHHrRpXSXiaNREnFdeJz9QK0J6s1x8S5+oIVOHF74lqqVvA/Nf/i6HTxcJO3J6/Y09TJ7J0r+jh0A0gHrrHbLjMz1y4UZNpMw0RBoCMSFmKCnvGVXZlYGY/AUTXnB44Un5XCAmcUNtAebPQK2OMTxOIBln/LlRybRmOrDyJZRoWJJ+0ciSZNC5Xs5j6TB1GLI5eb1aF1WWiC8xzKw1CHxueIn2l50Jxl8O2uqqHggGsUYnUO54wPEuxqAt6dWGw21CBNuUnVtbEAMc6eDF3/0cN/z2HnIvjBDtipMfK9DzW+8XfQ1ifGs1gauA6PTlsYVW8IAArn5Xgl4RP9wmTKgvet5QICrRc7xdVFPxApw5hTYlhljt7hCp8Itk0DQhFoHObs/IawWoV8STMk2xF7kierZMaaKIovpo35CW84SCS1jXy8qE4U9Gbbeydfp0jr1/+lviWbS1ygdKFejuFASEu2rzsoMDMUgOwM/+m7Ql/eRLcMO9kD0NfbcJkSvTMCONf6RWyUW7O9gt+Hdt91STywQl6DHLrRs3a3J8fli688enYHUfdA4Kk6dmcNutlmKAUAiyi8KAaERqG4GYxAWlihB9ahYtX6c2V6H9prWce+QY0ViQ5MoWRg/PSp3CzdSWKij/+oTvsmVRD/6qYje0Js2mRSweJBH109LuE3EsVeTPr8KWD8oBPhUOfQ/aVohaCrdJ9Lt2rxB77R7R38nVYlPKk8KAzm5YcT1U50SKLAN8fkj2S5ZTW/SCNtuCRhH8YalTB2PiGJiaGPLKtKjCXE52t9GE1jgUcjC3AJlueb1Wlyi4UoRKDTraIJkGow6Tk+gj0xiFKkq9TqOooagKzZqBXatTzWv4/Qq1fJ01/+HjBO3akjQp/+q4Dy5TKvvoR/x2IKjSvyHFygdvI9oeJuy3KZ+dozJVxNJ0LN3Av/ceOSAQEwREPA7t6+Q1S4em5uTxF5ykmQ+aVRjeB7lFGNwtSIj6gpyjOAN9e4UR1VlxfZWg7HZFlddBGKAGRCr0kqgay4mYLUN2vaJAeyvm8dMoig+23yDf7bqm9YowIBEXBsyMw2IBLJvaRA6jrFOYLKEVNPSSht4wMbUmZtOid1eGlrVdEPLJ99g2yoMvL2mhN+2ijv2rhK3VJaRv3b1G9GnTRJ1dxDIt5qbLtOsmPfdtdRgQFUJE06K39ZIQtDwlz2deEiNbnnY8nQuyC930slEVtQLCQMsUSVpwVJNpeHYAxI74VC8hp7kFI1128uwCbFgPIyMUnztNYmWrIPNAruXseVFJ0YgY2paEeE2hIDR0qhM5LNNmflryW+2pKLlsTdpwgf4dPbD3V+Cln8KFKZRPH/05E/CmmJD7g04nEqzTOdgBez4GMy+hHThFaaLI9ESJ9nSUnhtWiYsWTYuqUINCqEZBPIrylLw3d0SMM0jkalTldZfopu7l+ZcvvSTZT3AYEBNmGzXACRA1J8WhSuINNSjqJdMDiwuY+TKK6kPpTsl3A5x4akl3o6oOgNixFcEghIIYpQbVokY44qelLUL+lQwAzJ/+ADUR/YUMeFNMmP9chx1qCxPpaiEJsHkTFMfQn95HZbrM3HQZy7KFOd1pLx3hLiXgGVO3HtDaLx6MqQtzGgV57uJIjZoQz01tgzx2JaQ8LR6SqXt2wahB4ZxnrNWAl7ntHBTkHuBTFRLbVsGOD8jnhh6V2OL8eTG4+aLs/kwP5AsQi1B8+gRN3STWGqapm1imhar6aG2L0PPALsjmsErV1yz0XJJNyH4+ZS/MVkgkI/gUKI4sEumOoz33AsXxAvlcnZl8k5WZGB3rnUJ611a5+JCTcjY1MaS25QU40bTodjXolDmDTsmz4gRWmvwAfxiwvWKLqUsG1rUnkQ55bfwZaOTFHU2skOMq004qXIOZc2KMAV8yISonHIFz++R1nw3zixgLBdS2FmFGvB0SHRj7DxJuj2KUG/ijAUqLNbq39eD3K6iqQtBq4Fs3gPrr+17TA33DkpD9fMqOr2hhZqJEqC3M2ecnaE9FOfvN/UzMN8h0BFgsGjKUIxbEKNcJtPXC1D5xTU1dPJPECtnpShBGfwZtvWIP2gcl8TV4rzBj6BHRya1pIV5xDNRBz/UMRMW4qgGvRnDiEUkhNHQIRMSe1BZE+gJRMcpjI2ijs6ghlUBfN+bUPHq5QSRfFGI7XpFZaxCIBsWjSToVvtNH0cs6gYhNOBVlZigr2KVEnFg0IlPDPvGSD868Lpq+bkk4+KuK/bvrfP9HvWagFTUOj+nEGnVmczpTCw1OTFts6BbgVKojTEsyTCgSIJZJwswE9K4R97F4AUIJyc1kL6A9+QT+kArz07Lzxs/ApnuEAaVxaBsQmFwtC7Pj6C8fR+1QpK6gKLK7S5PyuLbgqLMS1PPiWkZjIm1aTiSvOofx7DPMH5xAAY6/MEXvnn6OfPcomU1p9FwVPybV8wsEUy0ohoHVtPCl22F8EnLzVM8vUM/WMLUmxZkyhmGSSEXRZopMHZmm438bu/zlzZ+9X7EFYCX0KGgQD8JYwYdfkbmhd25PEAiq5LI1YrEArT0Jol1x9HKDcCrO0E+GyaxtJ3HvLqzjZ5eavcMRP6lMC3bTolrUyHz2N2THuzagtiDB0+lh0cnRiOxUVRXVAOLFKEGvNu1XpQmkJQ4rB6C4IMFdIAYTxyk+fYK58SKnJ3XW9/hlqgswNqNxw809HD0ww85be8mNFRg6X+GOjwwy8vw4fVu7OPXcOG2pKKrqo2dLJ+dfmqZSapDX4J4nrEsKfl/XQUOfiNgLuQYrMzE6BzsIp+KYtQbn9k8yMd/grt/avpQn0eaKBBNSL2gU6uTGCpRLDTZ8bBfki8wcnFwqtJzO+rh1s+CFDN1k+69vk5lC2ZMiCb17IXcWagvoT+9j8VyOnns2C5FTHQJLbBScAlESRl/yEmqlitiiVIdcRNugfHb4GEPfP0yxbDBWkMuv6LKpuuM2iSAoio9GU/BMiuLj5Dxs71UZyzbxK9AV9zGwKU2toPHowTJhP3xyv3nJ2YfXPLD6f/XZ5ekyC3NV1uxaQXh1t7yRaif3yAHaP3an+Pdu/gbgxcdh83UU/+EJslNCcEVVqBQ1zi7YrEv7GF20uff+lQy/OMngDb2E92wC08Q4MYIa9KM88O8l4FJDaF/9E44+M86OO/oJfvRfi+3o2S36ueLEEyBIjO70UkGe/rXyuwIxT6LOjkIoyKFvvszprA+tCYbtI6LaSwnDpgV53Udb0CYZtokHhVEAN2xtY3xU6tfnCz5+/blLJ/7rYoL1T7fZSwWMbifx1NZL9qvfJ/XgfZIz2f5Rx9iZ4oVUZ0SNnHLaUKMRqodGiHRE+dnDw6zujWKZFqZps+bGXtTBVWJER08z9P3DorJ+538WDwdg5BGMA8cEYvLgH0hdOdwqQZhWcH6oDqMvyuPxKbR8nfDdd1wcO9QWnLLoAtkfH+PxAwW0JiTDHuFd1Zpv+EhHbAaSNl09ccYmKowVBNe6ssV+U6rnDTHBOvhpeynsT22SC+jYBLMHZXfNH4XBD3uoh/KUVxx3e79A1IpP5ewf/SHrPr6b6tHzxAbSsOc+eT83DEad81/5GZnNnQTvuB0yNwtkZfqA9Aak2uG6D8v5y1Oys7MnRRrmjy55LNpUjnAqLrZgx33iMSmO2xqIwcxBODdO4eQMLx/JMlbwsXeNn2LZIBpSMAyLelPGMd++p4NASwhF9XHmxSksy2ahJpOC/+W+N7/7X5MJ1uh/sZdC/4QD54h1iw8fiAmcpMWBCip+qMx6+ZyloMhtxot60JHRH0n3jJtSvvCkuK1PfQ1WZWDgbsn1GzUp7oOoGrdA4xLTLUs66s966SX5Kb1d8rlUx8W9assAAtqzh6lMlzk5lKeg+dizKYGmNclnJYCrN6F/ZZxIPMhjL+SX0NtTJZsPPnX5dv/y9XMuqjXxF1IRi6Sli9G2HbfPKdJnT0rKORCThFt9UZAPLijLH/EQD5EU6EUPpNXS50THNvgUiQlaV0H3Kui5Xo7VK14UHIg5gZcmbqZPld9SGIXyjJzjxHGadR3/xtWQ2QT+phd5Y8tmaBSFkeeO4e9owafVaQn6SLeqVEoNysUGp7NC39YQBMN+XjhRpqLDznVxwtEANzx85UbtXHRigaWYogoiaTFkkZTsdi0nKeNmTaTCxY0uOrVYF3zlU2XnJ3olJlBUIayLknPVlD/ibIOQB33RcsIsreDleNylBDxUtFGDxVms0Ql567p1kNooQVso6UkayPebumwegPEhWMiROzlLpdRg+EJ1qWcB4LatCeamyzSaNjc8sB7l35y+4mCIpYh5CRuqmEBI1Eu4zcm/O65B7qSkkquznlGMpr3cj9t6CsIA2xSXcTlksTItUuI29bmJNvdYLe+lmeFipFyj4NWRtSLKxjUSK/Ts9vJFrgpy0Xhu8SaalgCxWkfLVmjUm8zMVMnWxEOqmz7u3x4hEFQFq7q2/S1hADhMWMKG+lT50U0HG2RUxThaBhw7ArvfB/u+jjG1QODej3oqw9X/IFLkPnalwn3upg6iaSEQCLNcxjUcxpqGVw1zl3uO9nVS4FH9UnFzE3VudtZaltxzC/nZk5K2vjBFfTxLda7K2dHSUpwQ9sO/uCdNYkMPNE1SoaCTdnhr1sXgL7dfF6TKNXcYSnMc+pNvQihI8VvfY/zxk9hNG/Y96hVKTN0ppi8D0rpwQp/fgzGC01XfKcxZHBIGBKIeA1zja+lyfpegliHHVedh6FnxoNyd7/535pUunRNg+AmYGMc6fhZtKkd1rkouW8OvSEdP2A/339FJ4t5dsGUX3P2Zt5QBsMwmLPWKKX7R9z/5ErS38j/+z+cJ+6E/Ka1IiSC0paIM3LRSDrznk540LCeCi7RbLhsxRyEAABJ9SURBVBlGVTBHsy8L0bt3XwzenXxeCB1NO5N4ncK+M5GLQGwJTLX0HlxcX3A9MVOX+vWz/4Ser2HqTcrTZUzTxjBMwmE/h08XueV9GWJ37RKmhpIoPb/zloOkPUloNjxRth0kQaqDO7dE6G2RAa49qRDH532kMgnOPj0GWzYIgdzKlbLMJihOd4te8fR1cg2MPCI2oEuQdTQcmzP8uDzv2CAS4BJ58nlRT1HHUXBdVtfGuMtNa4NcR/YkHHgMo1ynUajTrBlEkmGiyTDtmRYW5qrc+cEBYr9yu9gUf+RtYQAsT2XXF8TD8Ycge5LioTHO/d0BNt7Uy8D7N5LdP0pq9yoa/3CM/GyFdR/fLVWmPTeLx+N6O8uXXhHih9uEOYVzsPo+D4NamVrWmGdKrsg2vZ4BoypF99698jy1WXa3PyIOgxuTmMbFN5SwTXmtaRLIpNGyF0j0JbGaMv29Ml1i8wc2SiePE8u8XQyAZZKgrP6PPgrnxBCfOMjkSI7Dsz4id96IlS/Rvj7F0A9Oct1n76JvTy9c9ysSlVqGk1ZWvdSFaxBBgi8tL3D4jo0e6Cp/Vt63DImCB+8WhgUT3rFzRwSd4Y96JdFQUlIjLk5UcbCkzZqjBnUYf0qQ1n5RTbEVLeilBkpLjMp0SRoH7/kdp8Ek8bYyAF5Z1Jk4jjU6wdzxOZ49b3Hn+iC09qPcPQjFC2xoa5EyX3ca67GvoezeLeBX1xU1qrIDXbfSH5FgLtYlBMqPeGXLYIu8N3MQoilxY9WQZ1dmXoJVd8hrJYkHloaO1yvQf4swIBgXBvhUOe/UPsEGOQArY2qB7JlFEp0xKtPjKKoiLbKKgyla3qTyNq1XeEcmSihAW3+SgVaLdbf3L6UJ6j95hsKhCxQPjcHsgkABjx3xMqem7g0AiaRkFyuqE6Q5bVHzRyW4swzxjGYOiqvZtV28KBBJ0QqeClo4Lq+PPAtHXhT11LneSV0EveCuWRe1BgJL6cwAEEhE0LQm0yM5GvUmycEOGbPj2Cml99+97b3cF0fM399rky/Kk5Y4rN8FtXkqjz1Peb7KqZES129PUa/oZOcqXPehzQIXcaGNoaREvy7Qt56VVIVRkxs+hNvgws8kXaE53+NCF/1RMeTVeYh1ikSUxj3CFhcgGpVN0brKU0XufAu3abCSW0JjAxx65AzDOen033nPAIFbb5O0RqTjqmAAvEISlI8+76MlLmnrXR8SNzGcJH7TRnp29TJb8fHD5xY5NVIiFAmgzRXFi7EMUTkuxjOa9nY0iBFN9Iqh7t0rAVr7oKSktYIwwLUVyQHZpfVFaQZRAsIwtzLWuU2YbBoe8qI8BeeeFjhjrQ5nR6nOVTj+o2HOOwHZ1r29BK7ftKQqrxYGwC/q1GlrlRJiblimYoWSgtNUVcJ++NBdnbSFIdkWlula0bQQ2Kd63onVlNe7d0ptONwurqhlCNFdyYl2ClFcozq9Xz6XGxbXt2O1HJ/o8UanuVglF2dqVB0EhVOMn5plat95poay1BoWa9qlThD5tU9K0d+ovqUzT1/P+nm0RdMUsU9tEjViGWj5Os1aiY9+/kYqR8cY3NYlEaYSkJ3bKDnwFRMsnA6ckKeWKlNeeiHS4QVxhfOeETd12eXT+z3MqRtFu2VMN2CrjTmQ95r0FbQ56fazR/jhtwThkGnx0dMTozUdY/v7dwomqWc3Sv8fXlUMgF9WT3j+IzapTRDtpP53/w+RgS65x8ADD3gQwtRmmD8iBEpvFsPqjitTg14HDjjNghXR369s0h5/SsBU/dvh8NOyo7vT0nPWEofMtovrFK6H5BrlQAwaBawjp/jqV0fIGz56Ija9LTYDK2P03bsZttwGiQzKyv/pqmMA/DLcUXYRpp4EVeX0C5MEDk5z3Qc2wJmD0hs2dwSe/i6V8TzxmzYKhggkDgAvDaH4L259Ba/Ju1mTxpCmQM+1HzxMIBrApyqwkEdJt0ns4A4bcfH/LgqvkhN1pQZgYYJHvjPCgu7D72Mpwi8XG8LQV/YsX2XrFzOhWodanfL5Rba9fw1TR2epz5WIXH+zpAMWJtCyFZmIkmwXsNb1v3Nx7shVF8trDOBV5nLDoKroF+YxRmaxmxamblLP1mhfn4JNN3lp75ADhSxPSTa03WlNcsC/57+zn+64jV+RmUebN7Qt4UGJpiCSftsDsldbv7CFVvnESz49L0FM8Xye3p0rBMZy4qAQNpvD1E3ZrSMjsOMzXtCj5cU1bTrP3TqBqQuTcmfE9Tz0LMb4LHq5ge2kE5o1g9TmThmprxWkbQm8Th41KEbaZUyjAKcPU6vobLkxw/bBOPdc34I/qFKtGtI8GE6KmryK1y+FQQbbovj8PhL3/wa8/GPxPPrXirt4/d3EMiege4sYZi3vQd7t5sWFFTXolEZ1yYDGM5KKTrcTiEUwG7MsnsvR3p8kMtAF2+9waswT4m5OzUqKubYApbL0HIeSYhvGRsi9dJ5Mf5JmzaCQ17BMC0VV2PzAFin4mIbXrH6Vrl+ORV2VIdCalg71Wx/0sD7usgwPQe33e8OilvJIXFzQcatigajA5E0dumOE80U6N6XFh1f9Xrp6fAq91CC4fRBmR2UTdDiVuNq8SCDQ/sE9mCeGZcTBeBFV9dO3UyDpS79X+eWXeTWsV8cdTfyFTTAhgdPyEZgvfEsMdPakl9l0m7DdfA7I5yMpz1C7npGT4LN++GUAlO2bREICUbhwSMBbMbcGrUrc4vYImwacPSHvB4PQvRrGhzBGp7CbNnpZPLKlMTyJXsmStv3aVWsTXn2L+B1QVygpakYryF33QkGvo8bUxQd3S50uxKU6KwTIj3gwRTctATBzEGVdv5xLCcDESa8/LN0u/5umeDfLG73LM97jWARe3geZbgKZNPqFeeKZFuk1G38GBj/08w0lV+F69dkWblra7xjWcFICObchPDcsu75ru1fsd49rWQUjP3Aa9pxMp17xUBSJHokFEj1w/jzWhWlhgjumoKELM1pXeYX/kcNLrava6XE4N+4NJqzWUUMqeqkhDFz/kWVXeXUz4lWZoPT+O99SHt8ttKz9oHdX7u7rveKLUfVc0UBMPKT+e7xar1uDdmvN8YwMlTpxEGp1bNPCzBaEyK4K6tvl9KhlhHkrMpLCbuiEP/KbkopWVShV5MZFbQmCq3tEVS6/Y7jrOl+l6zX1pDX3FVt6vvI/Xy+OpC+e2BVNO8HZskkuRk1siqV78HW3kD9+EC5M4brDwUyHqJhqHW78iCddy8uYliEbwtkIxuPfl9LlQJdIxY4PSBl1ORLQMq9hmwBOnseUoMedomLqQgi3SO9OZtdy8nmf3/NIllqaHFxrOOl12bSmoaVIMBoRleJXJWfk1HyXjnfT1T4ViMj39+yGZ79OIJMm4NqOwXvFEbCaF4MPlkvFVbhemwmKA1kpT0mtwFU7Pr8wwL9M3YTbhRHBFrlwo+YhJdzZEi4DKlOSenC7/f2qAH+7tnturov4s1+hTnyq1Ku33+Gh7iIdXgrdzV8pzmZ45fFX2XrNoVNK+8d9gr7oFkRGIOb4/w2PAS7KorbgSY5Rk2qXO7zDBfK6fWat/RCJi953O/5bnJoEeAx45XKDQLettrVfikCJjEiAP8oSdGf5NVzF6/VN/rKaQhB3LoTP76WjA05BRi/La4pfmOWOPAgnl82YjspjNSj5ptZ+KfD4Vdi+W6TAMr1zLwd2uUbfH/Veb+lz0BztXiyil+R3LrdJV/l6fUwwG8IIV+e7Lp/P78QBMW+KbrMh/8FRS/rSbVeIdopbW5uH1XfI7gWxA6U5eeye39Q9+2IvSwy+Ur+7dwkJxITgbteOy5RrPk5wP9T1Gd/SDgVRGS4jWlbKBYccgrtwF3e0vjvWLJwU4rcPel7P8ONSwBk6I0xxCeYChN04xU0CurvaNdIBZ1hgICqMiKbkfRd80Ly6DbK7Xv8gQpfoLrFdoBg4LuNzUqBxV3VeiJE9JcQbe06IP/y4vDb+jARk7myJ5d8RWNZYogY9laeoHkrcjcrd1HioRVSh1fTAzGbjqnZN3XVpma1AVLpzoimnxHjKed1pY3IHhkyMi/dj6qL39z8Ma9fL8RPn5SZ0q1eKLVCDnqS5UhdwPDN38m95UnrTVt8gtqR1laOKHHCY1YTF00soDKXrM1c9A+ANSMLSBbk62ZWIelY8ntOHRbUYNRmXWXEgLa1psAys42eFEW5/cnenNHesvdXz6Ze+TPXq1PWsfE9pXIK79EphQLhVVJ1eks9VZ2H0MQf2Mn1VoSlea70xSXDdvobjgWh52fG1BejtlopXbgT9xZMS/YaCS1OxlNUrYeO9AgCLOyMV2gYvxrC6htf17bWSnP/EMwLoWnmdV0uIdkoSsXevOAcjz8o5YpHLetOht2K9oR+71M8WdPRvbUFwocsH/z3xNW82UDQiaYimCevuv3ggiOt6urrfTY243UEg/RHlGdn1bYNSQCpPSvRdHBMX19Lh6JNLdxlRPvr8NcUAuIQZeNbYn9lL/WfT+y8exDrxokxBdMZYcvPHhFEdG5ZhkkwvGnZXILqsOlcW5kw8I/Xkgbvl+VJfW95DWtTm4al/wGpaKNHwL50ndLWvN26Y88MwNSzp4u60NyAQBCysqhcPG+zc5kHhzQb4TC+OAHlcz8rj2UPiwp591Immb5PSpGuwQXJD80cd8O8wBIMoqnnNMgAu1TvKDIoxbh8Uvbw4KwwoV+B9/0L0td8ZSG4tg7i4naEu+tptIgE5T7RT1IzbDOh6TEupECcNnhwQF7hT4gblV392zTIALmFgubLjb31E07Bij9cVWa6IZNx4lzBHdYYBLvfxmw2JK3x+B/jlMMCFsxt1wTWdOSCG27U9rhQsHJPHbhSuyuyia50BcAlMALxUQdtaZyRyUDryEyskmeYW9MFLJS+vbpm67GSjJu5mICZVslJFCjVtg576UlQ49Q1Ib3Xc4sZS6vxK3RX2rV6XxgTTkAzp2BPyvKHLvSrdtig3k2mZTlmzLPq+6aQhcsPO/OyqBFxa0ZthtO0uLzJ2R3dmbl7WHC7Jw6sV0ngp65IuxDr1R9L37EbIqc2Szw+1eIX+5fe40cteY7d72xR3MqRW8GZZK0GRLi0vNuDZr8t4zBV7POzQVV4lu5R1yRdjHXjQprgAWz8uasWVAne5kaxtilToZW9iY+c2+Yzd9GIMy3Sg7yXxtg4/JnHG9Z9wckmSwninMQAuVR2B7ObMNiFu66qLk27uve7dO0fVndHJSsBzWd3kn+vxBKKSKm/WqD/0P6TKtvNjzliE/DWTjLuUdelMaHci2HjGy92buhDezWaC6P6lsTsRrzhkVD2Mqs8vzCyc5+Tn/5DIln6JEyafF8NfnUFJf+odyQB4k1PjrbmvyO263NtqNUoeA2xTmLMECG54tgK8Nie3Peqpr3HoO0fYdEsfakilPF6kdaANdXXvO8INfbX15kCabiDlzkJajvl01YwbsDVN0J3bcNUc97R9nbiqhx9j6pkRJko+Fn48TrbmY2PKpqfeJLPsZg/v1PXm7y61HA3h3sLLRTyUpzyj7Cbtxp/y7uxq6mDpWAt5njhaJVvz5g7lNcj898I7ngHwJpmgpH7Tt6T7watFgxA+nPTuFuimrF2ktOv354Zp1gxuGPCzIWXTHbdJRe3LOujval+XHzPupqT9UedOH1x8N1cXFKCXxF2tFAmmErS2RVBUhVhFZ+c/X95Bf1f7evPqyDXEbv9y02kYnD/qgX+XmkUc5F59UbyeaFomt/tVEp0xOlck3nUMgMt0Tx0r+w2bUIvEBJUpLypuFCSaditg7qQXrSjFmFBSahFjR97xHtCrrcujjtwGwercUqel9vA3CF+/Xu7YtPU3Rf3oZWfy+wU5zgEIv5sZAJeLCWbjovl1xuPfl8eTs3D3Z7xcUM2BwYSSS6pK2fbVdzUD4HLYBJbNiagtYD7xMNkzi4Q//Z+l8jbzkhjl5X0JgSgoAZQtX3zXMwAu433WrLE/s/FHZIRO5iZJcwdiMvYgEvcawCNxqQXsek8C3HX5XFQ1KHq/Y4PM0w7EYP+T0tzX241+ZFhuGNoSvyYREVdyXT4m+FTvNr9nDqANTxEezMDGvdQf/jaNvIbP7yN0DRfkr9S6rASxZr5kYzflPjid6yVYK83B8Hm0fJ3o//rGbnPyblmX987kZkM8ocF7BQrpGuO21vcY8Crr8qYt3Gnvw4/LyIVGASwD5WP732PAq6zLThzr8O/acj+1JFj6OwYRcSXX5VVH7nLgLu8x4PWtK8SEGMq2//oeA95b1876/wFklf5au6QRYAAAAABJRU5ErkJggg==",[[-36.4766399397895,-62.184090777452],[-36.4886932869374,-62.1732390546668]],1,null,"tmap402","Kriging"]},{"method":"addLegend","args":[{"colors":["#FFF8C4 , #FFF8C4 0%, #FEECA5 11.1111111111111%, #FED97B 22.2222222222222%, #FEBE4A 33.3333333333333%, #FE9C2C 44.4444444444444%, #EF7818 55.5555555555556%, #D85A09 66.6666666666667%, #B74202 77.7777777777778%, #8E3004 88.8888888888889%, #662506 100%, #662506 "],"labels":["0.0","0.5","1.0","1.5","2.0","2.5","3.0","3.5","4.0","4.5"],"na_color":null,"na_label":null,"opacity":1,"position":"topright","type":"numeric","title":"Rendimiento (t/ha) Kriging","extra":{"p_1":0,"p_n":1},"layerId":"legend402","className":"info legend Kriging","group":"Kriging"}]},{"method":"addLayersControl","args":[["Satelital","OSM"],["RFSI","Kriging"],{"collapsed":true,"autoZIndex":true,"position":"topleft"}]}],"limits":{"lat":[-36.4886932869374,-36.4766399397895],"lng":[-62.184090777452,-62.1732390546668]},"fitBounds":[-36.4886125605851,-62.184090777452,-36.4766399397895,-62.1732490415672,[]]},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="validacion-cruzada.-compración-de-métodos-diagrama-de-taylor" class="level4">
+<h4 class="anchored" data-anchor-id="validacion-cruzada.-compración-de-métodos-diagrama-de-taylor">Validacion cruzada. Compración de métodos: diagrama de Taylor</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>num_cores <span class="ot">&lt;-</span> <span class="fu">max</span>(<span class="fu">detectCores</span>() <span class="sc">-</span> <span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>cl <span class="ot">&lt;-</span> <span class="fu">makeCluster</span>(num_cores)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>tablavalidacion <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">parLapply</span>(cl, <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, validacion_rinde))</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="fu">stopCluster</span>(cl)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(tablavalidacion, <span class="st">'data/tablavalidacion.RDS'</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>tablavalidacion <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">'data/tablavalidacion.RDS'</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">TaylorDiagram</span>(</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  tablavalidacion,</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">obs =</span> <span class="st">"Observado"</span>,</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">mod =</span> <span class="st">"Predicho"</span>,</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> <span class="fu">c</span>(<span class="st">"Metodo"</span>),</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">cols =</span> <span class="fu">c</span>(<span class="st">"orange"</span>, <span class="st">"#251cad"</span>),</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">cor.col =</span> <span class="st">'brown'</span>,</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">rms.col =</span> <span class="st">'black'</span>,</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">annotate =</span> <span class="st">"RMSE"</span>,</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Desvio Estandar"</span>,</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">"Desvio Estandar"</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Ej02_rinde_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+
+
+<!-- -->
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copiada");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Correr el código</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb21" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Ejemplo 2: Mapeo de Rendimiento de Soja"</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span><span class="co"> html</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="fu">## Datos</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>La base de datos de ilustración cuenta con valores de rendimiento de un cultivo de soja (n=14536) recolectados con un monitor de rendimiento en un lote agrícola de 55 ha ubicado en el sudeste de la provincia de Bs. As. La base de datos cuenta con cuatro columnas, las primeras dos identifican las coordenadas espaciales bidimensionales (x e y), la tercera corresponde al cultivo y la cuarta al rendimiento expresado en t/ha.</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>Se ilustra el uso del método kriging ordinarios y del algoritmo RFSI, en un escenario donde se utiliza solo la información de la variable medida, sin incluir las covariables disponibles. </span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a><span class="fu">### Lectura base de datos</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-fold: true</span></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-summary: "Carga paquetes y funciones"</span></span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gstat)</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(spdep)</span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tmap)</span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(leaflet)</span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stars)</span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomForest)</span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(parallel)</span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(openair)</span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"src/near.obs.R"</span>)</span>
+<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"src/fvalidacion_rinde.R"</span>)</span>
+<span id="cb21-32"><a href="#cb21-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-33"><a href="#cb21-33" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_options</span>(</span>
+<span id="cb21-34"><a href="#cb21-34" aria-hidden="true" tabindex="-1"></a>  <span class="at">basemaps =</span> <span class="fu">c</span>(</span>
+<span id="cb21-35"><a href="#cb21-35" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Satelital'</span> <span class="ot">=</span> leaflet<span class="sc">::</span>providers<span class="sc">$</span>Esri.WorldImagery,</span>
+<span id="cb21-36"><a href="#cb21-36" aria-hidden="true" tabindex="-1"></a>    <span class="st">'OSM'</span> <span class="ot">=</span> leaflet<span class="sc">::</span>providers<span class="sc">$</span>OpenStreetMap</span>
+<span id="cb21-37"><a href="#cb21-37" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb21-38"><a href="#cb21-38" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb21-39"><a href="#cb21-39" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb21-40"><a href="#cb21-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-41"><a href="#cb21-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-44"><a href="#cb21-44" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb21-45"><a href="#cb21-45" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"data/Rinde_soja.gpkg"</span>)[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)]</span>
+<span id="cb21-46"><a href="#cb21-46" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(datos)</span>
+<span id="cb21-47"><a href="#cb21-47" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb21-48"><a href="#cb21-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-49"><a href="#cb21-49" aria-hidden="true" tabindex="-1"></a><span class="fu">### Kriging Ordinario </span></span>
+<span id="cb21-50"><a href="#cb21-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-51"><a href="#cb21-51" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Ajuste de semivariogramas</span></span>
+<span id="cb21-52"><a href="#cb21-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-55"><a href="#cb21-55" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb21-56"><a href="#cb21-56" aria-hidden="true" tabindex="-1"></a>semiva_exp <span class="ot">&lt;-</span> <span class="fu">variogram</span>(REND <span class="sc">~</span> <span class="dv">1</span> , datos, <span class="at">cutoff=</span><span class="dv">300</span>)</span>
+<span id="cb21-57"><a href="#cb21-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-58"><a href="#cb21-58" aria-hidden="true" tabindex="-1"></a>semiva_teorico <span class="ot">&lt;-</span></span>
+<span id="cb21-59"><a href="#cb21-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit.variogram</span>(semiva_exp , <span class="fu">vgm</span>(<span class="fu">c</span>(<span class="st">"Exp"</span>, <span class="st">"Sph"</span>, <span class="st">"Gau"</span>)))</span>
+<span id="cb21-60"><a href="#cb21-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-61"><a href="#cb21-61" aria-hidden="true" tabindex="-1"></a>vgLine <span class="ot">&lt;-</span></span>
+<span id="cb21-62"><a href="#cb21-62" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cbind</span>(<span class="fu">variogramLine</span>(semiva_teorico, <span class="at">maxdist =</span> <span class="fu">max</span>(semiva_exp<span class="sc">$</span>dist)), <span class="at">id =</span></span>
+<span id="cb21-63"><a href="#cb21-63" aria-hidden="true" tabindex="-1"></a>          <span class="st">"Semivariograma  Teórico"</span>)</span>
+<span id="cb21-64"><a href="#cb21-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-65"><a href="#cb21-65" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(semiva_exp, <span class="fu">aes</span>(<span class="at">x =</span> dist, <span class="at">y =</span> gamma, <span class="at">color =</span> id)) <span class="sc">+</span></span>
+<span id="cb21-66"><a href="#cb21-66" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> vgLine) <span class="sc">+</span></span>
+<span id="cb21-67"><a href="#cb21-67" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb21-68"><a href="#cb21-68" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Semivariograma experimental y teorico ajustado"</span>)  <span class="sc">+</span></span>
+<span id="cb21-69"><a href="#cb21-69" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Distancia"</span>) <span class="sc">+</span></span>
+<span id="cb21-70"><a href="#cb21-70" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Semivarianza"</span>)  <span class="sc">+</span></span>
+<span id="cb21-71"><a href="#cb21-71" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_discrete</span>(<span class="at">name =</span> <span class="st">"Semivariograma"</span>,</span>
+<span id="cb21-72"><a href="#cb21-72" aria-hidden="true" tabindex="-1"></a>                       <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Teórico"</span>, <span class="st">"Experimental"</span>))</span>
+<span id="cb21-73"><a href="#cb21-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-74"><a href="#cb21-74" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb21-75"><a href="#cb21-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-76"><a href="#cb21-76" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Carga de limites del area a interpolar</span></span>
+<span id="cb21-79"><a href="#cb21-79" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb21-80"><a href="#cb21-80" aria-hidden="true" tabindex="-1"></a>limites <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"data/Limites_Rinde_soja.gpkg"</span>)</span>
+<span id="cb21-81"><a href="#cb21-81" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(limites)</span>
+<span id="cb21-82"><a href="#cb21-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-83"><a href="#cb21-83" aria-hidden="true" tabindex="-1"></a>grilla <span class="ot">&lt;-</span> <span class="fu">st_bbox</span>(limites) <span class="sc">%&gt;%</span></span>
+<span id="cb21-84"><a href="#cb21-84" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_as_stars</span>(<span class="at">dx =</span> <span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb21-85"><a href="#cb21-85" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_crop</span>(limites)</span>
+<span id="cb21-86"><a href="#cb21-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-87"><a href="#cb21-87" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb21-88"><a href="#cb21-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-89"><a href="#cb21-89" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Interpolación Kriging</span></span>
+<span id="cb21-92"><a href="#cb21-92" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb21-93"><a href="#cb21-93" aria-hidden="true" tabindex="-1"></a>kriging <span class="ot">&lt;-</span></span>
+<span id="cb21-94"><a href="#cb21-94" aria-hidden="true" tabindex="-1"></a>  <span class="fu">krige</span>(REND <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb21-95"><a href="#cb21-95" aria-hidden="true" tabindex="-1"></a>        datos,</span>
+<span id="cb21-96"><a href="#cb21-96" aria-hidden="true" tabindex="-1"></a>        grilla,</span>
+<span id="cb21-97"><a href="#cb21-97" aria-hidden="true" tabindex="-1"></a>        <span class="at">model =</span> semiva_teorico,</span>
+<span id="cb21-98"><a href="#cb21-98" aria-hidden="true" tabindex="-1"></a>        <span class="at">nmax =</span> <span class="dv">25</span>)</span>
+<span id="cb21-99"><a href="#cb21-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-100"><a href="#cb21-100" aria-hidden="true" tabindex="-1"></a>grilla<span class="sc">$</span>KO <span class="ot">&lt;-</span> kriging<span class="sc">$</span>var1.pred</span>
+<span id="cb21-101"><a href="#cb21-101" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb21-102"><a href="#cb21-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-103"><a href="#cb21-103" aria-hidden="true" tabindex="-1"></a><span class="fu">### Interpolación Espacial Random Forest (RFSI)</span></span>
+<span id="cb21-104"><a href="#cb21-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-105"><a href="#cb21-105" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Generación de covariables basadas en distancia y valores vecinos</span></span>
+<span id="cb21-108"><a href="#cb21-108" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb21-109"><a href="#cb21-109" aria-hidden="true" tabindex="-1"></a>nn_datos <span class="ot">&lt;-</span> <span class="fu">near.obs</span>(</span>
+<span id="cb21-110"><a href="#cb21-110" aria-hidden="true" tabindex="-1"></a>  <span class="at">locations =</span> <span class="fu">as_Spatial</span>(datos),</span>
+<span id="cb21-111"><a href="#cb21-111" aria-hidden="true" tabindex="-1"></a>  <span class="at">observations =</span> <span class="fu">as_Spatial</span>(datos),</span>
+<span id="cb21-112"><a href="#cb21-112" aria-hidden="true" tabindex="-1"></a>  <span class="at">zcol =</span> <span class="st">"REND"</span>,</span>
+<span id="cb21-113"><a href="#cb21-113" aria-hidden="true" tabindex="-1"></a>  <span class="at">n.obs =</span> <span class="dv">4</span></span>
+<span id="cb21-114"><a href="#cb21-114" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb21-115"><a href="#cb21-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-116"><a href="#cb21-116" aria-hidden="true" tabindex="-1"></a>datos_nn <span class="ot">&lt;-</span> <span class="fu">cbind</span>(datos, nn_datos)</span>
+<span id="cb21-117"><a href="#cb21-117" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb21-118"><a href="#cb21-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-119"><a href="#cb21-119" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Ajuste del RF</span></span>
+<span id="cb21-122"><a href="#cb21-122" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb21-123"><a href="#cb21-123" aria-hidden="true" tabindex="-1"></a>fitControl <span class="ot">&lt;-</span></span>
+<span id="cb21-124"><a href="#cb21-124" aria-hidden="true" tabindex="-1"></a>  <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">"none"</span>)</span>
+<span id="cb21-125"><a href="#cb21-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-126"><a href="#cb21-126" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
+<span id="cb21-127"><a href="#cb21-127" aria-hidden="true" tabindex="-1"></a>train_rfsi_rinde <span class="ot">&lt;-</span> <span class="fu">train</span>(</span>
+<span id="cb21-128"><a href="#cb21-128" aria-hidden="true" tabindex="-1"></a>  REND <span class="sc">~</span> .,</span>
+<span id="cb21-129"><a href="#cb21-129" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> <span class="fu">st_drop_geometry</span>(datos_nn),</span>
+<span id="cb21-130"><a href="#cb21-130" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"rf"</span>,</span>
+<span id="cb21-131"><a href="#cb21-131" aria-hidden="true" tabindex="-1"></a>  <span class="at">trControl =</span> fitControl,</span>
+<span id="cb21-132"><a href="#cb21-132" aria-hidden="true" tabindex="-1"></a>  <span class="at">importance =</span> T</span>
+<span id="cb21-133"><a href="#cb21-133" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb21-134"><a href="#cb21-134" aria-hidden="true" tabindex="-1"></a>train_rfsi_rinde</span>
+<span id="cb21-135"><a href="#cb21-135" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb21-136"><a href="#cb21-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-137"><a href="#cb21-137" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Importancia de variables regresoras</span></span>
+<span id="cb21-140"><a href="#cb21-140" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb21-141"><a href="#cb21-141" aria-hidden="true" tabindex="-1"></a>importancia_rinde <span class="ot">&lt;-</span></span>
+<span id="cb21-142"><a href="#cb21-142" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>(<span class="fu">importance</span>(train_rfsi_rinde<span class="sc">$</span>finalModel))</span>
+<span id="cb21-143"><a href="#cb21-143" aria-hidden="true" tabindex="-1"></a>importancia_rinde<span class="sc">$</span>Variable <span class="ot">&lt;-</span> <span class="fu">rownames</span>(importancia_rinde)</span>
+<span id="cb21-144"><a href="#cb21-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-145"><a href="#cb21-145" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> importancia_rinde, <span class="fu">aes</span>(</span>
+<span id="cb21-146"><a href="#cb21-146" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">reorder</span>(Variable, <span class="st">`</span><span class="at">%IncMSE</span><span class="st">`</span>),</span>
+<span id="cb21-147"><a href="#cb21-147" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="st">`</span><span class="at">%IncMSE</span><span class="st">`</span>,</span>
+<span id="cb21-148"><a href="#cb21-148" aria-hidden="true" tabindex="-1"></a>  <span class="at">fill =</span> <span class="st">`</span><span class="at">%IncMSE</span><span class="st">`</span></span>
+<span id="cb21-149"><a href="#cb21-149" aria-hidden="true" tabindex="-1"></a>)) <span class="sc">+</span></span>
+<span id="cb21-150"><a href="#cb21-150" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Variable"</span>, <span class="at">title =</span> <span class="st">"Incremento de MSE (%)"</span>) <span class="sc">+</span></span>
+<span id="cb21-151"><a href="#cb21-151" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb21-152"><a href="#cb21-152" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb21-153"><a href="#cb21-153" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb21-154"><a href="#cb21-154" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span>
+<span id="cb21-155"><a href="#cb21-155" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb21-156"><a href="#cb21-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-157"><a href="#cb21-157" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Calculo de los residuos del RFSI y ajuste de semivariograma experimetal</span></span>
+<span id="cb21-158"><a href="#cb21-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-161"><a href="#cb21-161" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb21-162"><a href="#cb21-162" aria-hidden="true" tabindex="-1"></a>datos_nn<span class="sc">$</span>residuosRFSI <span class="ot">&lt;-</span></span>
+<span id="cb21-163"><a href="#cb21-163" aria-hidden="true" tabindex="-1"></a>  datos_nn<span class="sc">$</span>REND <span class="sc">-</span> <span class="fu">predict</span>(train_rfsi_rinde, <span class="at">newdata =</span> datos_nn)</span>
+<span id="cb21-164"><a href="#cb21-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-165"><a href="#cb21-165" aria-hidden="true" tabindex="-1"></a>semiva_exp_residuos_rfsi <span class="ot">&lt;-</span> <span class="fu">variogram</span>(residuosRFSI <span class="sc">~</span> <span class="dv">1</span> , datos_nn)</span>
+<span id="cb21-166"><a href="#cb21-166" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(semiva_exp_residuos_rfsi)</span>
+<span id="cb21-167"><a href="#cb21-167" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb21-168"><a href="#cb21-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-169"><a href="#cb21-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-170"><a href="#cb21-170" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Predicción RFSI</span></span>
+<span id="cb21-171"><a href="#cb21-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-174"><a href="#cb21-174" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb21-175"><a href="#cb21-175" aria-hidden="true" tabindex="-1"></a>grilla_nn_rinde <span class="ot">&lt;-</span></span>
+<span id="cb21-176"><a href="#cb21-176" aria-hidden="true" tabindex="-1"></a>  <span class="fu">near.obs</span>(</span>
+<span id="cb21-177"><a href="#cb21-177" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">as_Spatial</span>(<span class="fu">st_as_sf</span>(grilla, <span class="at">as_points =</span> T)),</span>
+<span id="cb21-178"><a href="#cb21-178" aria-hidden="true" tabindex="-1"></a>    <span class="at">observations =</span> <span class="fu">as_Spatial</span>(datos_nn),</span>
+<span id="cb21-179"><a href="#cb21-179" aria-hidden="true" tabindex="-1"></a>    <span class="at">zcol =</span> <span class="st">"REND"</span>,</span>
+<span id="cb21-180"><a href="#cb21-180" aria-hidden="true" tabindex="-1"></a>    <span class="at">n.obs =</span> <span class="dv">4</span></span>
+<span id="cb21-181"><a href="#cb21-181" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb21-182"><a href="#cb21-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-183"><a href="#cb21-183" aria-hidden="true" tabindex="-1"></a>grilla_nn_rinde <span class="ot">&lt;-</span></span>
+<span id="cb21-184"><a href="#cb21-184" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cbind</span>(<span class="fu">st_as_sf</span>(grilla, <span class="at">as_points =</span> T), grilla_nn_rinde)</span>
+<span id="cb21-185"><a href="#cb21-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-186"><a href="#cb21-186" aria-hidden="true" tabindex="-1"></a>grilla_nn_rinde<span class="sc">$</span>RFSI <span class="ot">&lt;-</span></span>
+<span id="cb21-187"><a href="#cb21-187" aria-hidden="true" tabindex="-1"></a>  <span class="fu">predict</span>(train_rfsi_rinde, <span class="at">newdata =</span> grilla_nn_rinde)</span>
+<span id="cb21-188"><a href="#cb21-188" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb21-189"><a href="#cb21-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-190"><a href="#cb21-190" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Mapa predicción KO y RFSI</span></span>
+<span id="cb21-191"><a href="#cb21-191" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-194"><a href="#cb21-194" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb21-195"><a href="#cb21-195" aria-hidden="true" tabindex="-1"></a>grilla_nn_rinde_rast <span class="ot">&lt;-</span></span>
+<span id="cb21-196"><a href="#cb21-196" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_rasterize</span>(grilla_nn_rinde, <span class="at">dx =</span> <span class="dv">10</span>, <span class="at">dy =</span> <span class="dv">10</span>)</span>
+<span id="cb21-197"><a href="#cb21-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-198"><a href="#cb21-198" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_options</span>(</span>
+<span id="cb21-199"><a href="#cb21-199" aria-hidden="true" tabindex="-1"></a>  <span class="at">basemaps =</span> <span class="fu">c</span>(</span>
+<span id="cb21-200"><a href="#cb21-200" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Satelital'</span> <span class="ot">=</span> leaflet<span class="sc">::</span>providers<span class="sc">$</span>Esri.WorldImagery,</span>
+<span id="cb21-201"><a href="#cb21-201" aria-hidden="true" tabindex="-1"></a>    <span class="st">'OSM'</span> <span class="ot">=</span> leaflet<span class="sc">::</span>providers<span class="sc">$</span>OpenStreetMap</span>
+<span id="cb21-202"><a href="#cb21-202" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb21-203"><a href="#cb21-203" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb21-204"><a href="#cb21-204" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-205"><a href="#cb21-205" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">'view'</span>)</span>
+<span id="cb21-206"><a href="#cb21-206" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-207"><a href="#cb21-207" aria-hidden="true" tabindex="-1"></a>breaks_custom <span class="ot">&lt;-</span> <span class="fu">pretty</span>(<span class="fu">c</span>(grilla_nn_rinde_rast<span class="sc">$</span>KO,</span>
+<span id="cb21-208"><a href="#cb21-208" aria-hidden="true" tabindex="-1"></a>                          grilla_nn_rinde_rast<span class="sc">$</span>RFSI),</span>
+<span id="cb21-209"><a href="#cb21-209" aria-hidden="true" tabindex="-1"></a>                        <span class="at">n =</span> <span class="dv">6</span>)</span>
+<span id="cb21-210"><a href="#cb21-210" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-211"><a href="#cb21-211" aria-hidden="true" tabindex="-1"></a>kriging_rinde <span class="ot">&lt;-</span></span>
+<span id="cb21-212"><a href="#cb21-212" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(grilla_nn_rinde_rast,</span>
+<span id="cb21-213"><a href="#cb21-213" aria-hidden="true" tabindex="-1"></a>           <span class="at">name =</span> <span class="st">"Kriging"</span>) <span class="sc">+</span></span>
+<span id="cb21-214"><a href="#cb21-214" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_raster</span>(</span>
+<span id="cb21-215"><a href="#cb21-215" aria-hidden="true" tabindex="-1"></a>    <span class="at">col =</span> <span class="st">"KO"</span>,</span>
+<span id="cb21-216"><a href="#cb21-216" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Rendimiento (t/ha) Kriging"</span>,</span>
+<span id="cb21-217"><a href="#cb21-217" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="st">"cont"</span>,</span>
+<span id="cb21-218"><a href="#cb21-218" aria-hidden="true" tabindex="-1"></a>    <span class="at">palette =</span> <span class="st">"YlOrBr"</span>,</span>
+<span id="cb21-219"><a href="#cb21-219" aria-hidden="true" tabindex="-1"></a>    <span class="at">contrast =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="dv">1</span>),</span>
+<span id="cb21-220"><a href="#cb21-220" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> breaks_custom</span>
+<span id="cb21-221"><a href="#cb21-221" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb21-222"><a href="#cb21-222" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(<span class="at">legend.format =</span> <span class="fu">list</span>(<span class="at">scientific =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb21-223"><a href="#cb21-223" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">format =</span> <span class="st">"f"</span>))</span>
+<span id="cb21-224"><a href="#cb21-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-225"><a href="#cb21-225" aria-hidden="true" tabindex="-1"></a>RFSI_rinde <span class="ot">&lt;-</span></span>
+<span id="cb21-226"><a href="#cb21-226" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(grilla_nn_rinde_rast,</span>
+<span id="cb21-227"><a href="#cb21-227" aria-hidden="true" tabindex="-1"></a>           <span class="at">name =</span> <span class="st">"RFSI"</span>) <span class="sc">+</span></span>
+<span id="cb21-228"><a href="#cb21-228" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_raster</span>(</span>
+<span id="cb21-229"><a href="#cb21-229" aria-hidden="true" tabindex="-1"></a>    <span class="at">col =</span> <span class="st">"RFSI"</span>,</span>
+<span id="cb21-230"><a href="#cb21-230" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Rendimiento (t/ha) RFSI"</span>,</span>
+<span id="cb21-231"><a href="#cb21-231" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="st">"cont"</span>,</span>
+<span id="cb21-232"><a href="#cb21-232" aria-hidden="true" tabindex="-1"></a>    <span class="at">palette =</span> <span class="st">"YlOrBr"</span>,</span>
+<span id="cb21-233"><a href="#cb21-233" aria-hidden="true" tabindex="-1"></a>    <span class="at">contrast =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="dv">1</span>),</span>
+<span id="cb21-234"><a href="#cb21-234" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> breaks_custom</span>
+<span id="cb21-235"><a href="#cb21-235" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb21-236"><a href="#cb21-236" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(<span class="at">legend.format =</span> <span class="fu">list</span>(<span class="at">scientific =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb21-237"><a href="#cb21-237" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">format =</span> <span class="st">"f"</span>))</span>
+<span id="cb21-238"><a href="#cb21-238" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb21-239"><a href="#cb21-239" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-242"><a href="#cb21-242" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb21-243"><a href="#cb21-243" aria-hidden="true" tabindex="-1"></a>RFSI_rinde <span class="sc">+</span> kriging_rinde</span>
+<span id="cb21-244"><a href="#cb21-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-245"><a href="#cb21-245" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb21-246"><a href="#cb21-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-247"><a href="#cb21-247" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Validacion cruzada. Compración de métodos: diagrama de Taylor</span></span>
+<span id="cb21-248"><a href="#cb21-248" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, eval = FALSE}</span></span>
+<span id="cb21-249"><a href="#cb21-249" aria-hidden="true" tabindex="-1"></a>num_cores <span class="ot">&lt;-</span> <span class="fu">max</span>(<span class="fu">detectCores</span>() <span class="sc">-</span> <span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb21-250"><a href="#cb21-250" aria-hidden="true" tabindex="-1"></a>cl <span class="ot">&lt;-</span> <span class="fu">makeCluster</span>(num_cores)</span>
+<span id="cb21-251"><a href="#cb21-251" aria-hidden="true" tabindex="-1"></a>tablavalidacion <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">parLapply</span>(cl, <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, validacion_rinde))</span>
+<span id="cb21-252"><a href="#cb21-252" aria-hidden="true" tabindex="-1"></a><span class="fu">stopCluster</span>(cl)</span>
+<span id="cb21-253"><a href="#cb21-253" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(tablavalidacion, <span class="st">'data/tablavalidacion.RDS'</span>)</span>
+<span id="cb21-254"><a href="#cb21-254" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb21-255"><a href="#cb21-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-258"><a href="#cb21-258" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb21-259"><a href="#cb21-259" aria-hidden="true" tabindex="-1"></a>tablavalidacion <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">'data/tablavalidacion.RDS'</span>)</span>
+<span id="cb21-260"><a href="#cb21-260" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb21-261"><a href="#cb21-261" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-262"><a href="#cb21-262" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-265"><a href="#cb21-265" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb21-266"><a href="#cb21-266" aria-hidden="true" tabindex="-1"></a><span class="fu">TaylorDiagram</span>(</span>
+<span id="cb21-267"><a href="#cb21-267" aria-hidden="true" tabindex="-1"></a>  tablavalidacion,</span>
+<span id="cb21-268"><a href="#cb21-268" aria-hidden="true" tabindex="-1"></a>  <span class="at">obs =</span> <span class="st">"Observado"</span>,</span>
+<span id="cb21-269"><a href="#cb21-269" aria-hidden="true" tabindex="-1"></a>  <span class="at">mod =</span> <span class="st">"Predicho"</span>,</span>
+<span id="cb21-270"><a href="#cb21-270" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> <span class="fu">c</span>(<span class="st">"Metodo"</span>),</span>
+<span id="cb21-271"><a href="#cb21-271" aria-hidden="true" tabindex="-1"></a>  <span class="at">cols =</span> <span class="fu">c</span>(<span class="st">"orange"</span>, <span class="st">"#251cad"</span>),</span>
+<span id="cb21-272"><a href="#cb21-272" aria-hidden="true" tabindex="-1"></a>  <span class="at">cor.col =</span> <span class="st">'brown'</span>,</span>
+<span id="cb21-273"><a href="#cb21-273" aria-hidden="true" tabindex="-1"></a>  <span class="at">rms.col =</span> <span class="st">'black'</span>,</span>
+<span id="cb21-274"><a href="#cb21-274" aria-hidden="true" tabindex="-1"></a>  <span class="at">annotate =</span> <span class="st">"RMSE"</span>,</span>
+<span id="cb21-275"><a href="#cb21-275" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Desvio Estandar"</span>,</span>
+<span id="cb21-276"><a href="#cb21-276" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">"Desvio Estandar"</span></span>
+<span id="cb21-277"><a href="#cb21-277" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb21-278"><a href="#cb21-278" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-279"><a href="#cb21-279" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+</code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+ © 2022 Pablo Paccioretti, Monica Balzarini, Mariano Córdoba <span xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/">licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:18px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:18px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a><p></p>
+  </span></li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+</body></html>

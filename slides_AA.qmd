@@ -34,22 +34,14 @@ Octubre, 2022
 
 -   Proporciona una medida espacialmente explícita de la incertidumbre de la predicción.
 
-## Interpolación Kriging
-
-![](img/AA_0_kriging.jpg){fig-align="center", width=50%, height=50%}
-
     
 ## Interpolación Kriging
 
-![](img/AA_1_kriging.jpg){fig-align="center", width=50%, height=50%}
+![](img/AA_1_kriging.jpg){fig-align="center"}
 
 ## Interpolación Kriging
 
-![](img/AA_2_kriging.jpg){fig-align="center", width=50%, height=50%}
-
-## Modelación Tendencia
-
-![](img/AA_3_Tendencia.jpg){fig-align="center"}
+![](img/AA_2_kriging.jpg){fig-align="center"}
 
 ## Krigign Regresión
 
@@ -137,4 +129,35 @@ Donde:
 -   $d_i=|s_i-s_0|$
 
 
+:::: {.columns}
+
+::: {.column width="40%"}
+
+
+
+![RFSI](img/AA_5_mapaRFSI.jpg){width=80% height=90%}
+
+:::
+
+::: {.column width="40%"}
+
+
+
+![Kriging Ordinario](img/AA_5_mapaKO.jpg){width=80% height=90%}
+
+:::
+
+::::
+
+
+
+# Ejemplos de aplicación {background-color="#546e7a"}
+
+[Ejercicios 1](docs/Ej01_AA.html){preview-link="true"}
+
+[Ejercicios 2](docs/Ej02_rinde.html){preview-link="true"}
+
+
 # Gracias!
+
+
